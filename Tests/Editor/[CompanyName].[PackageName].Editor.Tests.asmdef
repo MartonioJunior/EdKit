@@ -1,0 +1,13 @@
+{
+	"name": "[CompanyName].[PackageName].Editor.Tests",
+	"references": [
+		"[CompanyName].[PackageName].Editor"
+	],
+	"optionalUnityReferences": [
+		"TestAssemblies"
+	],
+	"includePlatforms": [
+		"Editor"
+	],
+	"excludePlatforms": []
+}
