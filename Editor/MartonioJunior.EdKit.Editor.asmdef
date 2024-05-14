@@ -1,5 +1,5 @@
 {
-    "name": "[CompanyName].[PackageName].Editor",
+    "name": "MartonioJunior.EdKit.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [

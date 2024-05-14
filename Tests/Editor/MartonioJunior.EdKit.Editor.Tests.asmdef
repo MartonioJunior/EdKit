@@ -1,7 +1,7 @@
 {
-	"name": "[CompanyName].[PackageName].Editor.Tests",
+	"name": "MartonioJunior.EdKit.Editor.Tests",
 	"references": [
-		"[CompanyName].[PackageName].Editor"
+		"MartonioJunior.EdKit.Editor"
 	],
 	"optionalUnityReferences": [
 		"TestAssemblies"

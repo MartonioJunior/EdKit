@@ -1,8 +1,8 @@
 {
-    "name": "[CompanyName].[PackageName].Tests",
+    "name": "MartonioJunior.EdKit.Tests",
     "rootNamespace": "",
     "references": [
-        "[CompanyName].[PackageName]",
+        "MartonioJunior.EdKit",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
