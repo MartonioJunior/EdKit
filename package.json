@@ -1,15 +1,15 @@
 {
-    "name": "com.[CompanyName].[PackageName]",
-    "displayName": "[PackageName]",
-    "version": "0.0.0",
-    "unity": "2021.3",
-    "description": "[Important details about what the package offers]",
+    "name": "com.martoniojunior.edkit",
+    "displayName": "EdKit",
+    "version": "0.1.0",
+    "unity": "2022.3",
+    "description": "A custom Unity package to aid in the development of VR games for People with Visual Impairments (PVI). It unifies player gestures, feedback mechanisms and game analytics to deliver an abstraction layer that can be used by developers to make accessible games with Left-Right discrimination concepts.",
     "dependencies": {},
     "author": {
       "name": "Martônio Júnior",
       "url": "https://github.com/martoniojunior"
     },
-    "repository": "https://github.com/martoniojunior/[PackageName].git",
+    "repository": "https://github.com/martoniojunior/EdKit.git",
     "license": "MIT",
     "type": "tool"
   }
