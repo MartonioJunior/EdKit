@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.EdKit
 {
-    public partial class TrackerComponent
+    public partial class TrackerBehaviour
     {
         // MARK: Variables
         [SerializeField] Vector3 offsetCenter = Vector3.zero;
@@ -82,7 +82,7 @@ namespace MartonioJunior.EdKit
 
     #region MonoBehaviour Implementation
     [AddComponentMenu("Leftie Wrightie/Gestures/Gesture Tracker")]
-    public partial class TrackerComponent: MonoBehaviour
+    public partial class TrackerBehaviour: MonoBehaviour
     {
         void Update()
         {
