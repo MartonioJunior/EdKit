@@ -8,7 +8,11 @@ namespace MartonioJunior.EdKit
         [SerializeField] Placement placement;
 
         // MARK: Properties
-        public Placement Placement => placement;
+        public Placement Placement
+        {
+            get => placement;
+            set => placement = value;
+        }
 
         public Pose Pose => new(
             name: name,
