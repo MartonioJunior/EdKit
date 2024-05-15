@@ -10,15 +10,18 @@ namespace Tests.MartonioJunior.EdKit
     public partial class Position_Tests
     {
         [SetUp]
-        public void CreateTestContext()
-        {
-            
-        }
-
+        public void CreateTestContext() {}
         [TearDown]
-        public void DestroyTestContext()
+        public void DestroyTestContext() {}
+    }
+    #endregion
+
+    #region Test Mocking
+    public partial class Position_Tests
+    {
+        public static Position Mock
         {
-            
+            get => new Position(new Vector3(1, 2, 3), Vector3.one);
         }
     }
     #endregion
@@ -50,6 +53,46 @@ namespace Tests.MartonioJunior.EdKit
             var position = new Position(Vector3.zero, vector);
 
             Assert.AreEqual(deadzoneResult, position.Deadzone);
+        }
+
+        public static IEnumerable Initializer_Vector3_UseCases()
+        {
+            yield return null;
+        }
+        [TestCaseSource(nameof(Initializer_Vector3_UseCases))]
+        public void Initializer_Vector3_CreatesNewPositionWithDefaultDeadzone()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        public static IEnumerable Initializer_Vector3_Vector3_UseCases()
+        {
+            yield return null;
+        }
+        [TestCaseSource(nameof(Initializer_Vector3_Vector3_UseCases))]
+        public void Initializer_Vector3_Vector3_CreatesNewPositionWithValueAndDeadzone()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        public static IEnumerable Contains_UseCases()
+        {
+            yield return null;
+        }
+        [TestCaseSource(nameof(Contains_UseCases))]
+        public void Contains_ChecksWhenValueIsInsidePositionBounds()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
+        public static IEnumerable PrecisionFor_UseCases()
+        {
+            yield return null;
+        }
+        [TestCaseSource(nameof(PrecisionFor_UseCases))]
+        public void PrecisionFor_ReturnsProximityOfPointToCenterOfBounds()
+        {
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable XFor_UseCases()

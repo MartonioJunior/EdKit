@@ -9,16 +9,22 @@ namespace Tests.MartonioJunior.EdKit
     #region Test Setup
     public partial class TrackerBehaviour_Tests
     {
+        GameObject gameObject;
+        TrackerBehaviour trackerBehaviour;
+
         [SetUp]
-        public override void CreateTestContext()
+        public void CreateTestContext()
         {
-            
+            gameObject = new GameObject();
+            trackerBehaviour = gameObject.AddComponent<TrackerBehaviour>();
         }
 
         [TearDown]
-        public override void DestroyTestContext()
+        public void DestroyTestContext()
         {
-            
+            GameObject.DestroyImmediate(gameObject);
+            gameObject = null;
+            trackerBehaviour = null;
         }
     }
     #endregion
@@ -33,7 +39,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(GetPlacement_UseCases))]
         public void GetPlacement_ReturnsPlacementForTransforms()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable GetPositionForTransform_UseCases()
@@ -43,7 +49,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(GetPositionForTransform_UseCases))]
         public void GetPositionForTransform_ReturnsPositionForTransformBasedOnUnitVectors()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable GetRotationForTransform_UseCases()
@@ -53,7 +59,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(GetRotationForTransform_UseCases))]
         public void GetRotationForTransform_ReturnsRotationForTransformBasedOnUnitVectors()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Sample_UseCases()
@@ -63,7 +69,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Sample_UseCases))]
         public void Sample_InvokesOnUpdatePlacementWithCurrentTrackedPlacement()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion

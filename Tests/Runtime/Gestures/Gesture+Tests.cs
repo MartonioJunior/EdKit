@@ -10,13 +10,13 @@ namespace Tests.MartonioJunior.EdKit
     public partial class Gesture_Tests
     {
         [SetUp]
-        public override void CreateTestContext()
+        public void CreateTestContext()
         {
             
         }
 
         [TearDown]
-        public override void DestroyTestContext()
+        public void DestroyTestContext()
         {
             
         }
@@ -33,7 +33,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Initialize_Func_UseCases))]
         public void Initialize_Func_InstancesGestureFromScoringFunction()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Initializer_List_UseCases()
@@ -43,7 +43,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Initializer_List_UseCases))]
         public void Initializer_List_InstancesGestureFromListOfPoseEventScorers()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion
@@ -58,7 +58,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Name_UseCases))]
         public void Name_ReturnsNameOfGesture()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Evaluate_UseCases()
@@ -68,7 +68,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Evaluate_UseCases))]
         public void Evaluate_ReturnsScoreFromListOfPoseEvents()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion

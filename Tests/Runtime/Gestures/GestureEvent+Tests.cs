@@ -10,13 +10,13 @@ namespace Tests.MartonioJunior.EdKit
     public partial class GestureEvent_Tests
     {
         [SetUp]
-        public override void CreateTestContext()
+        public void CreateTestContext()
         {
             
         }
 
         [TearDown]
-        public override void DestroyTestContext()
+        public void DestroyTestContext()
         {
             
         }
@@ -33,7 +33,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(PoseEvents_UseCases))]
         public void PoseEvents_ReturnsListOfPoseEventsInGesture()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Gesture_UseCases()
@@ -43,7 +43,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Gesture_UseCases))]
         public void Gesture_ReturnsGestureIdentified()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Timestamp_UseCases()
@@ -53,7 +53,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Timestamp_UseCases))]
         public void Timestamp_ReturnsLevelTimeWhereEventWasDetected()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Initializer_UseCases()
@@ -63,7 +63,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Initializer_UseCases))]
         public void Initializer_CreatesNewGestureEventFromPoseEventsGestureAndTimestamp()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion

@@ -9,14 +9,19 @@ namespace Tests.MartonioJunior.EdKit
     #region Test Setup
     public partial class Rotation_Tests
     {
-        public void CreateTestContext()
-        {
-            
-        }
+        [SetUp]
+        public void CreateTestContext() {}
+        [TearDown]
+        public void DestroyTestContext() {}
+    }
+    #endregion
 
-        public void DestroyTestContext()
+    #region Test Mocking
+    public partial class Rotation_Tests
+    {
+        public static Rotation Mock
         {
-            
+            get => new Rotation(Quaternion.identity, Vector3.one);
         }
     }
     #endregion

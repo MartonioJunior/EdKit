@@ -3,22 +3,26 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using MartonioJunior.EdKit;
+using Pose = MartonioJunior.EdKit.Pose;
 
 namespace Tests.MartonioJunior.EdKit
 {
     #region Test Setup
     public partial class PoseData_Tests
     {
+        PoseData poseData;
+
         [SetUp]
-        public override void CreateTestContext()
+        public void CreateTestContext()
         {
-            
+            poseData = ScriptableObject.CreateInstance<PoseData>();
         }
 
         [TearDown]
-        public override void DestroyTestContext()
+        public void DestroyTestContext()
         {
-            
+            ScriptableObject.DestroyImmediate(poseData);
+            poseData = null;
         }
     }
     #endregion
@@ -33,17 +37,54 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Placement_UseCases))]
         public void Placement_ReturnsDefinedPlacement(Placement input, Placement expected)
         {
-            Assert.Ignore(NotImplemented);
+            poseData.Placement = input;
+
+            Assert.AreEqual(expected, poseData.Placement);
         }
 
         public static IEnumerable Pose_UseCases()
         {
-            yield return null;
+            yield return new object[] { "Pose 1", new Placement(), new Pose("Pose 1", p => 1.0f) };
         }
         [TestCaseSource(nameof(Pose_UseCases))]
-        public void Pose_CreatesPoseUsingPlacement(PoseData pose, string name, Placement expectedPlacement)
+        public void Pose_CreatesPoseUsingPlacement(string name, Placement placement, Pose expected)
         {
-            Assert.Ignore(NotImplemented);
+            poseData.name = name;
+            poseData.Placement = placement;
+
+            var newPose = poseData.Pose;
+
+            Assert.AreEqual(expected.Name, newPose.Name);
+            Assert.AreEqual(expected.Evaluate(new Placement()), newPose.Evaluate(new Placement()));
+        }
+    }
+    #endregion
+
+    #region Test Methods (IPose)
+    public partial class PoseData_Tests
+    {
+        public static IEnumerable Name_UseCases()
+        {
+            yield return new object[] { "Pose 1" };
+        }
+        [TestCaseSource(nameof(Name_UseCases))]
+        public void Name_ReturnsDefinedName(string name)
+        {
+            poseData.name = name;
+
+            Assert.AreEqual(name, poseData.Name);
+        }
+
+        public static IEnumerable Evaluate_UseCases()
+        {
+            yield return new object[] { new Placement(), 1.0f };
+        }
+        [TestCaseSource(nameof(Evaluate_UseCases))]
+        public void Evaluate_ReturnsPoseEvaluation(Placement placement, float expected)
+        {
+            poseData.Placement = new Placement();
+
+            Assert.AreEqual(expected, poseData.Evaluate(placement));
         }
     }
     #endregion

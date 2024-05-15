@@ -10,13 +10,13 @@ namespace Tests.MartonioJunior.EdKit
     public partial class GestureData_Tests
     {
         [SetUp]
-        public override void CreateTestContext()
+        public void CreateTestContext()
         {
             
         }
 
         [TearDown]
-        public override void DestroyTestContext()
+        public void DestroyTestContext()
         {
             
         }
@@ -33,7 +33,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Poses_UseCases))]
         public void Poses_ReturnsSequenceOfPoseDataObjects()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion
@@ -48,7 +48,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Name_UseCases))]
         public void Name_ReturnsNameForGesture()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
 
         public static IEnumerable Evaluate_UseCases()
@@ -58,7 +58,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Evaluate_UseCases))]
         public void Evaluate_ReturnsScoreFromListOfPoseEvents()
         {
-            Assert.Ignore(NotImplemented);
+            Assert.Ignore("Not Implemented");
         }
     }
     #endregion
