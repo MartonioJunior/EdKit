@@ -11,6 +11,9 @@ namespace MartonioJunior.EdKit
         [SerializeField] int bufferSize = 10;
         IList<IGesture> gestures;
         IList<IPose> poses;
+
+        // MARK: Properties
+        public List<PoseEvent> Buffer => buffer;
         
         // MARK: Events
         [SerializeField] UnityEvent<GestureEvent> onGestureRecognized;
