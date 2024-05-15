@@ -8,6 +8,10 @@ namespace MartonioJunior.EdKit
         [SerializeField] float alignment;
         [SerializeField] float scale;
 
+        // MARK: Properties
+        public float Alignment => alignment;
+        public float Scale => scale;
+
         // MARK: Initializers
         public AffordanceEffect(float alignment, float scale, float multiplier)
         {
