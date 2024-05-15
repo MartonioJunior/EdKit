@@ -8,13 +8,13 @@ namespace MartonioJunior.EdKit
     {
         // MARK: Variables
         [SerializeField] string name;
-        [SerializeField] Func<Placement,float> scoreFunction;
+        [SerializeField] ScoreFunction scoreFunction;
 
         // MARK: Delegates
         public delegate float ScoreFunction(Placement placement);
 
         // MARK: Initializers
-        public Pose(string name, Func<Placement,float> scoreFunction)
+        public Pose(string name, ScoreFunction scoreFunction)
         {
             this.name = name;
             this.scoreFunction = scoreFunction;
