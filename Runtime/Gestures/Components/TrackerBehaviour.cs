@@ -81,7 +81,7 @@ namespace MartonioJunior.EdKit
     }
 
     #region MonoBehaviour Implementation
-    [AddComponentMenu("Leftie Wrightie/Gestures/Gesture Tracker")]
+    [AddComponentMenu("EdKit/Gesture Tracker")]
     public partial class TrackerBehaviour: MonoBehaviour
     {
         void Update()
