@@ -49,6 +49,8 @@ To use Gesture Recognition:
 1. Create a new `GameObject` with the `TrackerBehaviour` and `RecognizerBehaviour` components.
 2. Connect `RecognizerBehaviour.Register` method to `onUpdatePlacement` event of `TrackerBehaviour`
 3. Assign the Transforms for all 4 references.
+4. Create a new component to seed the gestures and poses tracked by the `RecognizerBehaviour` via the `SetPoses` and `SetGestures` methods (it's recommended to declare a variable for the `RecognizerBehaviour` so it can be assigned directly during Awake/Start).
+5. Add this new seeder component to a GameObject and assign the `RecognizerBehaviour` to this new component.
 
 ### Multimodal Feedback
 
