@@ -18,6 +18,7 @@ namespace MartonioJunior.EdKit
         // MARK: Properties
         public Vector3 Value => bounds.center;
         public Vector3 Deadzone => bounds.extents;
+        public static Position Infinite => new Position(Vector3.zero, Vector3.one*float.PositiveInfinity);
 
         // MARK: Initializers
         public Position(Vector3 value) => bounds = new Bounds(value, new Vector3(0.25f, 0.45f, 0.25f));

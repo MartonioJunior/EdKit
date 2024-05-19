@@ -55,6 +55,12 @@ namespace Tests.MartonioJunior.EdKit
             Assert.AreEqual(deadzoneResult, position.Deadzone);
         }
 
+        [Test]
+        public void Infinite_CreatesNewPositionWithInfiniteBounds()
+        {
+            Assert.Ignore("Not Implemented");
+        }
+
         public static IEnumerable Initializer_Vector3_UseCases()
         {
             yield return null;
