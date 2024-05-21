@@ -37,7 +37,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Initializer_UseCases()
         {
-            yield return new object[] { Orientation_Tests.Mock, Orientation_Tests.Mock, Orientation_Tests.Mock };
+            yield return new TestCaseData(Orientation_Tests.Mock, Orientation_Tests.Mock, Orientation_Tests.Mock);
         }
         [TestCaseSource(nameof(Initializer_UseCases))]
         public void Initializer_CreatesNewPlacementWithSpecifiedOrientations(Orientation leftHand, Orientation rightHand, Orientation head)

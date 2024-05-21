@@ -32,7 +32,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Initializer_Parameters_UseCases()
         {
-            yield return new object[] { Vector3.zero, Quaternion.identity };
+            yield return new TestCaseData(Vector3.zero, Quaternion.identity);
         }
         [TestCaseSource(nameof(Initializer_Parameters_UseCases))]
         public void Initializer_Parameters_CreatesNewOrientationWithSpecifiedPositionAndRotation(Vector3 position, Quaternion rotation)
@@ -57,12 +57,12 @@ namespace Tests.MartonioJunior.EdKit
             var size = Vector3.one;
             var position = new Vector3(1,2,3);
 
-            yield return new object[] { position, new Bounds(Vector3.zero, size), position*2};
-            yield return new object[] { position, new Bounds(Vector3.zero, size*2), position};
-            yield return new object[] { position, new Bounds(Vector3.zero, size*4), position/2};
+            yield return new TestCaseData(position, new Bounds(Vector3.zero, size), position*2);
+            yield return new TestCaseData(position, new Bounds(Vector3.zero, size*2), position);
+            yield return new TestCaseData(position, new Bounds(Vector3.zero, size*4), position/2);
 
             var offset = new Vector3(0.6f, 0.5f, 0.4f);
-            yield return new object[] { position, new Bounds(offset, size), (position-offset)*2};
+            yield return new TestCaseData(position, new Bounds(offset, size), (position-offset)*2);
         }
         [TestCaseSource(nameof(NormalizedPositionIn_UseCases))]
         public void NormalizedPositionIn_ReturnsVector3WithNormalizedValueBasedOnBounds(Vector3 position, Bounds bounds, Vector3 expectedPosition)
@@ -78,13 +78,13 @@ namespace Tests.MartonioJunior.EdKit
             var size = Vector3.one;
             var rotation = Quaternion.Euler(30,0,0);
 
-            yield return new object[] { rotation, new Bounds(Vector3.zero, size), rotation.eulerAngles*2};
-            yield return new object[] { rotation, new Bounds(Vector3.zero, size*2), rotation.eulerAngles};
-            yield return new object[] { rotation, new Bounds(Vector3.zero, size*4), rotation.eulerAngles/2};
+            yield return new TestCaseData(rotation, new Bounds(Vector3.zero, size), rotation.eulerAngles*2);
+            yield return new TestCaseData(rotation, new Bounds(Vector3.zero, size*2), rotation.eulerAngles);
+            yield return new TestCaseData(rotation, new Bounds(Vector3.zero, size*4), rotation.eulerAngles/2);
 
             var offset = new Vector3(15, 10, 5);
             var estimate = (rotation.eulerAngles-offset)*2;
-            yield return new object[] { rotation, new Bounds(offset, size), new Vector3(Mathf.Abs(estimate.x), Mathf.Abs(estimate.y), Mathf.Abs(estimate.z))};
+            yield return new TestCaseData(rotation, new Bounds(offset, size), new Vector3(Mathf.Abs(estimate.x), Mathf.Abs(estimate.y), Mathf.Abs(estimate.z)));
         }
         [TestCaseSource(nameof(NormalizedRotationIn_UseCases))]
         public void NormalizedRotationIn_ReturnsEulerAnglesBasedOnBounds(Quaternion quaternion, Bounds bounds, Vector3 expectedRotation)
@@ -100,8 +100,8 @@ namespace Tests.MartonioJunior.EdKit
             var position = new Vector3(3,5,0);
             var rotation = Quaternion.Euler(0,0,30);
 
-            yield return new object[] { position, rotation, Orientation.identity, new Orientation(position, rotation)};
-            yield return new object[] { position, rotation, new Orientation(position, rotation), Orientation.identity};
+            yield return new TestCaseData(position, rotation, Orientation.identity, new Orientation(position, rotation));
+            yield return new TestCaseData(position, rotation, new Orientation(position, rotation), Orientation.identity);
         }
         [TestCaseSource(nameof(Place_NoOffsets_UseCases))]
         public void Place_NoOffsets_CreatesOrientationFromTransform(Vector3 position, Quaternion rotation, Orientation reference, Orientation expected)
@@ -123,9 +123,9 @@ namespace Tests.MartonioJunior.EdKit
             var position = new Vector3(3,5,0);
             var rotation = Quaternion.Euler(0,0,30);
 
-            yield return new object[] { position, rotation, Orientation.identity, Vector3.zero, Quaternion.identity, new Orientation(position, rotation)};
-            yield return new object[] { position, rotation, new Orientation(position, rotation), Vector3.zero, Quaternion.identity, Orientation.identity};
-            yield return new object[] { position, rotation, Orientation.identity, -position, Quaternion.Inverse(rotation), Orientation.identity};
+            yield return new TestCaseData(position, rotation, Orientation.identity, Vector3.zero, Quaternion.identity, new Orientation(position, rotation));
+            yield return new TestCaseData(position, rotation, new Orientation(position, rotation), Vector3.zero, Quaternion.identity, Orientation.identity);
+            yield return new TestCaseData(position, rotation, Orientation.identity, -position, Quaternion.Inverse(rotation), Orientation.identity);
         }
         [TestCaseSource(nameof(Place_Offsets_UseCases))]
         public void Place_Offsets_CreatesOrientationFromTransformAndOffsets(Vector3 position, Quaternion rotation, Orientation reference, Vector3 offsetPosition, Quaternion offsetRotation, Orientation expected)
@@ -144,7 +144,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable ToString_UseCases()
         {
-            yield return new object[] { Orientation.identity, "Position: (0.00, 0.00, 0.00), Rotation: (0.00000, 0.00000, 0.00000, 1.00000)" };
+            yield return new TestCaseData(Orientation.identity, "Position: (0.00, 0.00, 0.00), Rotation: (0.00000, 0.00000, 0.00000, 1.00000)");
         }
         [TestCaseSource(nameof(ToString_UseCases))]
         public void ToString_ReturnsDescriptionForObject(Orientation orientation, string output)

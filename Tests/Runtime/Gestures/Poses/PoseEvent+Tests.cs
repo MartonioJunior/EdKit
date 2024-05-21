@@ -24,7 +24,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Placement_UseCases()
         {
-            yield return new object[] { new Placement() };
+            yield return new TestCaseData(new Placement());
         }
         [TestCaseSource(nameof(Placement_UseCases))]
         public void Placement_ReturnsActorPlacement(Placement placement)
@@ -36,7 +36,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Pose_UseCases()
         {
-            yield return new object[] { new Pose("Pose 1", p => 1.0f) };
+            yield return new TestCaseData(new Pose("Pose 1", p => 1.0f));
         }
         [TestCaseSource(nameof(Pose_UseCases))]
         public void Pose_ReturnsPoseIdentified(IPose pose)
@@ -48,7 +48,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Timestamp_UseCases()
         {
-            yield return new object[] { 4.3f };
+            yield return new TestCaseData(4.3f);
         }
         [TestCaseSource(nameof(Timestamp_UseCases))]
         public void Timestamp_ReturnsLevelTimeWhenEventHappened(float timestamp)
@@ -60,7 +60,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Score_UseCases()
         {
-            yield return new object[] { new Pose("Pose 1", p => 1.0f), new Placement() };
+            yield return new TestCaseData(new Pose("Pose 1", p => 1.0f), new Placement());
         }
         [TestCaseSource(nameof(Score_UseCases))]
         public void Score_ReturnsScoreObtainedFromPoseAtPlacement(IPose pose, Placement placement)
@@ -72,7 +72,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Initializer_UseCases()
         {
-            yield return new object[] { new Placement(), new Pose("Pose 1", p => 1.0f), 4.3f };
+            yield return new TestCaseData(new Placement(), new Pose("Pose 1", p => 1.0f), 4.3f);
         }
         [TestCaseSource(nameof(Initializer_UseCases))]
         public void Initializer_ReturnsNewPoseEvent(Placement placement, IPose pose, float timestamp)
@@ -86,9 +86,9 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable From_UseCases()
         {
-            yield return new object[] { new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.5f) }, new PoseEvent(new Placement(), new Pose("Pose 1", p => 1.0f), 4.3f) };
-            yield return new object[] { new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => 0.25f), new Pose("Pose 2", p => 2.0f) }, new PoseEvent(new Placement(), new Pose("Pose 2", p => 2.0f), 6.7f) };
-            yield return new object[] { new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => -1.25f), new Pose("Pose 2", p => -2.2f) }, null };
+            yield return new TestCaseData(new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.5f) }, new PoseEvent(new Placement(), new Pose("Pose 1", p => 1.0f), 4.3f));
+            yield return new TestCaseData(new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => 0.25f), new Pose("Pose 2", p => 2.0f) }, new PoseEvent(new Placement(), new Pose("Pose 2", p => 2.0f), 6.7f));
+            yield return new TestCaseData(new Placement(), 4.3f, new IPose[] { new Pose("Pose 1", p => -1.25f), new Pose("Pose 2", p => -2.2f) }, null);
         }
         [TestCaseSource(nameof(From_UseCases))]
         public void From_EvaluatesPosesToCreatesNewPoseEventWithHighestScoringPose(Placement placement, float timestamp, IList<IPose> posesToCheck, PoseEvent? expected)
