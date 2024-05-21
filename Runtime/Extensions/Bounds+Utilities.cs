@@ -9,9 +9,9 @@ namespace MartonioJunior.EdKit
             var delta = point - self.center;
 
             return new Vector3(
-                delta.x / self.extents.x,
-                delta.y / self.extents.y,
-                delta.z / self.extents.z
+                delta.x.SafeDivideBy(self.extents.x, delta.x),
+                delta.y.SafeDivideBy(self.extents.y, delta.y),
+                delta.z.SafeDivideBy(self.extents.z, delta.z)
             );
         }
     }
