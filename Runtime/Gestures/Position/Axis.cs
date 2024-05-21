@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
@@ -16,6 +17,47 @@ namespace MartonioJunior.EdKit
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public Axis(Vector3 vector)
+        {
+            x = GetX(vector);
+            y = GetY(vector);
+            z = GetZ(vector);
+        }
+
+        // MARK: Methods
+        public static X GetX(Vector3 vector)
+        {
+            return vector.x switch
+            {
+                float x when float.IsNaN(x) => X.None,
+                float x when x < 0 => X.Left,
+                float x when x > 0 => X.Right,
+                _ => X.Center,
+            };
+        }
+
+        public static Y GetY(Vector3 vector)
+        {
+            return vector.y switch
+            {
+                float y when float.IsNaN(y) => Y.None,
+                float y when y < 0 => Y.Below,
+                float y when y > 0 => Y.Above,
+                _ => Y.Neutral,
+            };
+        }
+
+        public static Z GetZ(Vector3 vector)
+        {
+            return vector.z switch
+            {
+                float z when float.IsNaN(z) => Z.None,
+                float z when z < 0 => Z.Back,
+                float z when z > 0 => Z.Front,
+                _ => Z.Body,
+            };
         }
     }
 
