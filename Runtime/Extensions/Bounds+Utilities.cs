@@ -9,9 +9,9 @@ namespace MartonioJunior.EdKit
             var delta = point - self.center;
 
             return new Vector3(
-                Mathf.Abs(delta.x / self.extents.x),
-                Mathf.Abs(delta.y / self.extents.y),
-                Mathf.Abs(delta.z / self.extents.z)
+                delta.x / self.extents.x,
+                delta.y / self.extents.y,
+                delta.z / self.extents.z
             );
         }
     }

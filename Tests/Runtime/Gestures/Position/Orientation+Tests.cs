@@ -83,8 +83,7 @@ namespace Tests.MartonioJunior.EdKit
             yield return new TestCaseData(rotation, new Bounds(Vector3.zero, size*4), rotation.eulerAngles/2);
 
             var offset = new Vector3(15, 10, 5);
-            var estimate = (rotation.eulerAngles-offset)*2;
-            yield return new TestCaseData(rotation, new Bounds(offset, size), new Vector3(Mathf.Abs(estimate.x), Mathf.Abs(estimate.y), Mathf.Abs(estimate.z)));
+            yield return new TestCaseData(rotation, new Bounds(offset, size), (rotation.eulerAngles-offset)*2);
         }
         [TestCaseSource(nameof(NormalizedRotationIn_UseCases))]
         public void NormalizedRotationIn_ReturnsEulerAnglesBasedOnBounds(Quaternion quaternion, Bounds bounds, Vector3 expectedRotation)
