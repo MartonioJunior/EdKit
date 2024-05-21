@@ -13,30 +13,9 @@ namespace MartonioJunior.EdKit
         [SerializeField] Bounds rotationBoundsHead;
 
         // MARK: Properties
-        public Placement Placement
-        {
-            get => new Placement(
-                new Orientation(positionBoundsLeftHand.center, Quaternion.Euler(rotationBoundsLeftHand.center)),
-                new Orientation(positionBoundsRightHand.center, Quaternion.Euler(rotationBoundsRightHand.center)),
-                new Orientation(positionBoundsHead.center, Quaternion.Euler(rotationBoundsHead.center))
-            );
-            set {
-                positionBoundsLeftHand.center = value.LeftHand.Position;
-                rotationBoundsLeftHand.center = value.LeftHand.Rotation.eulerAngles;
-                positionBoundsRightHand.center = value.RightHand.Position;
-                rotationBoundsRightHand.center = value.RightHand.Rotation.eulerAngles;
-                positionBoundsHead.center = value.Head.Position;
-                rotationBoundsHead.center = value.Head.Rotation.eulerAngles;
-            }
-        }
-
         public Pose Pose => new(
             name: name,
-            p => {
-                return Precision(p.LeftHand, positionBoundsLeftHand, rotationBoundsLeftHand)
-                    + Precision(p.RightHand, positionBoundsRightHand, rotationBoundsRightHand)
-                    + Precision(p.Head, positionBoundsHead, rotationBoundsHead);
-            }
+            p => Precision(p)
         );
 
         // MARK: Methods
@@ -57,7 +36,7 @@ namespace MartonioJunior.EdKit
             var positionScore = Mathf.Abs(positionSample.x) + Mathf.Abs(positionSample.y) + Mathf.Abs(positionSample.z);
             var rotationScore = Mathf.Abs(rotationSample.x) + Mathf.Abs(rotationSample.y) + Mathf.Abs(rotationSample.z);
 
-            return (positionScore + rotationScore) / 6;
+            return 1-((positionScore + rotationScore) / 6);
         }
     }
 
