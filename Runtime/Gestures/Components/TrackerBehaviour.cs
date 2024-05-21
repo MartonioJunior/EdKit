@@ -26,52 +26,7 @@ namespace MartonioJunior.EdKit
         // MARK: Methods
         public Placement GetPlacement()
         {
-            var referenceForward = new Vector3(headTransform.forward.x, 0, headTransform.forward.z).normalized;
-            var referenceUp = xrTransform.up;
-
-            var leftHandPosition = GetPositionForTransform(leftHandTransform, referenceForward, referenceUp);
-            var rightHandPosition = GetPositionForTransform(rightHandTransform, referenceForward, referenceUp);
-            var headPosition = GetPositionForTransform(headTransform, referenceForward, referenceUp);
-
-            var leftHandRotation = GetRotationForTransform(leftHandTransform, referenceForward, referenceUp);
-            var rightHandRotation = GetRotationForTransform(rightHandTransform, referenceForward, referenceUp);
-            var headRotation = GetRotationForTransform(headTransform, referenceForward, referenceUp);
-
-            return new Placement(
-                new Orientation(leftHandPosition, leftHandRotation),
-                new Orientation(rightHandPosition, rightHandRotation),
-                new Orientation(headPosition, headRotation)    
-            );
-        }
-
-        public Position GetPositionForTransform(Transform transform, Vector3 forward, Vector3 up)
-        {
-            var xrPosition = xrTransform.position;
-
-            var delta = transform.position - xrPosition;
-
-            var relativePosition = new Vector3(
-                -delta.x,
-                delta.y-headTransform.position.y,
-                delta.z
-            )+offsetCenter;
-
-            var discretePosition = relativePosition.InverseRelativeTo(up, forward);
-
-            return new Position(discretePosition);
-        }
-
-        public Rotation GetRotationForTransform(Transform transform, Vector3 forward, Vector3 up)
-        {
-            var referenceQuaternion = xrTransform.rotation;
-
-            var delta = transform.rotation * Quaternion.Inverse(referenceQuaternion);
-
-            var relativeRotation = delta.eulerAngles;
-
-            var discreteRotation = relativeRotation.InverseRelativeTo(up, forward);
-
-            return new Rotation(Quaternion.Euler(discreteRotation));
+            return Placement.From(xrTransform, leftHandTransform, rightHandTransform, headTransform);
         }
 
         public void Sample()
