@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
@@ -25,6 +23,8 @@ namespace MartonioJunior.EdKit
                 int numberOfChecks = scoreFunctions.Count;
                 float score = 0;
 
+                if (numberOfChecks == 0) return 0;
+
                 for (int i = 0; i < numberOfChecks; i++) {
                     score += scoreFunctions[^i](events[^i]);
                 }
@@ -32,8 +32,6 @@ namespace MartonioJunior.EdKit
                 return score / numberOfChecks;
             };
         }
-
-        // MARK: Methods
     }
 
     #region IGesture Implementation
