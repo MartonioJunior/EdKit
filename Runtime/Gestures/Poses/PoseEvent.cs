@@ -47,4 +47,14 @@ namespace MartonioJunior.EdKit
             return new PoseEvent(actorPlacement, pose, timestamp);
         }
     }
+
+    #region ToString
+    public partial struct PoseEvent
+    {
+        public override string ToString()
+        {
+            return $"PoseEvent: {pose}({Placement}) - {Score} - {timestamp}";
+        }
+    }
+    #endregion
 }
