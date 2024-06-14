@@ -11,12 +11,13 @@ namespace MartonioJunior.EdKit
         [SerializeField] Placement actorPlacement;
         [SerializeReference] IPose pose;
         [SerializeField] float timestamp;
+        [SerializeField] float score;
 
         // MARK: Properties
         public Placement Placement => actorPlacement;
         public IPose Pose => pose;
         public float Timestamp => timestamp;
-        public float Score => pose.Evaluate(actorPlacement);
+        public float Score => score;
 
         // MARK: Initializers
         public PoseEvent(Placement actorPlacement, IPose pose, float timestamp)
@@ -24,6 +25,7 @@ namespace MartonioJunior.EdKit
             this.actorPlacement = actorPlacement;
             this.pose = pose;
             this.timestamp = timestamp;
+            this.score = pose.Evaluate(actorPlacement);
         }
 
         // MARK: Methods
