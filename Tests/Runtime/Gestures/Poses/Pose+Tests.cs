@@ -23,7 +23,7 @@ namespace Tests.MartonioJunior.EdKit
         public static IEnumerable Initializer_UseCases()
         {
             Pose.ScoreFunction function = (e) => 5.0f;
-            yield return new object[] { "Pose", function, 5.0f };
+            yield return new TestCaseData("Pose", function, 5.0f);
         }
         [TestCaseSource(nameof(Initializer_UseCases))]
         public void Initializer_CreatesNewPoseWithNameAndScoringFunction(string name, Pose.ScoreFunction scoreFunction, float score)
@@ -45,7 +45,7 @@ namespace Tests.MartonioJunior.EdKit
                 new Pose("Pose5", (e) => 5.0f),
             };
 
-            yield return new object[] { new Placement(), poses, poses[4] };
+            yield return new TestCaseData(new Placement(), poses, poses[4]);
         }
         [TestCaseSource(nameof(Evaluate_PoseList_UseCases))]
         public void Evaluate_PoseList_ReturnsHighestScoringPoseFromList(Placement placement, IPose[] poses, IPose expectedPose)
@@ -62,7 +62,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Name_UseCases()
         {
-            yield return new object[] { new Pose("Pose1", (e) => 1.0f), "Pose1" };
+            yield return new TestCaseData(new Pose("Pose1", (e) => 1.0f), "Pose1");
         }
         [TestCaseSource(nameof(Name_UseCases))]
         public void Name_ReturnsPoseName(Pose pose, string expectedName)
@@ -72,7 +72,7 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Evaluate_UseCases()
         {
-            yield return new object[] { new Pose("Pose1", (e) => 1.0f), new Placement(), 1.0f };
+            yield return new TestCaseData(new Pose("Pose1", (e) => 1.0f), new Placement(), 1.0f);
         }
         [TestCaseSource(nameof(Evaluate_UseCases))]
         public void Evaluate_ReturnsScoreForPlacement(Pose pose, Placement placement, float expectedScore)

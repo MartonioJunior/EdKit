@@ -5,21 +5,26 @@ namespace MartonioJunior.EdKit
 {
     public partial class AffordanceBehaviour
     {
+        // MARK: Variables
+        [SerializeField] AffordanceEffect currentEffect;
+        [SerializeField] float timer;
+
         // MARK: Events
+        [Header("Events")]
         [SerializeField] UnityEvent<AudioClip> onAudio;
-        [SerializeField] UnityEvent<Color> onColor;
-        [SerializeField] UnityEvent<Material> onMaterial;
+        [SerializeField] UnityEvent<Material> onVisual;
         [SerializeField] UnityEvent<string> onText;
-        [SerializeField] UnityEvent<AffordanceEffect> onAffordance;
+        [SerializeField] UnityEvent<AffordanceEffect> onEffect;
 
         // MARK: Methods
-        public void Apply(IAffordance affordance, AffordanceEffect effect)
+        public void Apply(AffordanceData affordance, AffordanceEffect effect)
         {
-            onAudio?.Invoke(affordance.Audio);
-            onColor?.Invoke(affordance.Color);
-            onMaterial?.Invoke(affordance.Material);
-            onText?.Invoke(affordance.Text);
-            onAffordance?.Invoke(effect);
+            onAudio?.Invoke(affordance.AudioFeedback);
+            onVisual?.Invoke(affordance.VisualFeedback);
+            onText?.Invoke(affordance.TextFeedback);
+
+            currentEffect = effect;
+            timer = effect.Duration;
         }
     }
 
@@ -27,7 +32,15 @@ namespace MartonioJunior.EdKit
     [AddComponentMenu("EdKit/Affordance Receiver")]
     public partial class AffordanceBehaviour: MonoBehaviour
     {
-        
+        void Update()
+        {
+            if (timer <= 0) return;
+
+            var deltaTime = Mathf.Min(Time.deltaTime, timer);
+            var effectToApply = new AffordanceEffect(currentEffect.Alignment, currentEffect.Scale, deltaTime);
+            onEffect?.Invoke(effectToApply);
+            timer -= deltaTime;
+        }
     }
     #endregion
 }

@@ -34,18 +34,6 @@ namespace MartonioJunior.EdKit
     }
     #endregion
 
-    #region Gizmos Support
-    public partial struct Placement
-    {
-        public void DrawGizmos(Transform origin)
-        {
-            leftHand.DrawGizmos(origin);
-            rightHand.DrawGizmos(origin);
-            head.DrawGizmos(origin);
-        }
-    }
-    #endregion
-
     #region Transform
     public partial struct Placement
     {
@@ -55,15 +43,15 @@ namespace MartonioJunior.EdKit
             Vector3 up = origin.up;
 
             var bodyOrientation = new Orientation(
-                new Position(new Vector3(head.position.x, origin.position.y, head.position.z), Vector3.zero),
-                new Rotation(Quaternion.LookRotation(forward, up), Vector3.zero)
+                new Vector3(origin.position.x, origin.position.y, origin.position.z),
+                Quaternion.LookRotation(forward, up)
             );
 
-            var leftHandOrientation = bodyOrientation.Place(leftHand, Vector3.zero);
-            var rightHandOrientation = bodyOrientation.Place(rightHand, Vector3.zero);
-            var headOrientation = bodyOrientation.Place(head, Vector3.zero);
-
-            return new Placement(leftHandOrientation, rightHandOrientation, headOrientation);
+            return new Placement(
+                bodyOrientation.Place(leftHand),
+                bodyOrientation.Place(rightHand),
+                bodyOrientation.Place(head)
+            );
         }
     }
     #endregion

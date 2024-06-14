@@ -1,7 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using MartonioJunior.EdKit;
 using Pose = MartonioJunior.EdKit.Pose;
 
@@ -21,7 +20,7 @@ namespace Tests.MartonioJunior.EdKit
         [TearDown]
         public void DestroyTestContext()
         {
-            ScriptableObject.DestroyImmediate(poseData);
+            Object.DestroyImmediate(poseData);
             poseData = null;
         }
     }
@@ -30,32 +29,19 @@ namespace Tests.MartonioJunior.EdKit
     #region Test Methods (Base Type)
     public partial class PoseData_Tests
     {
-        public static IEnumerable Placement_UseCases()
-        {
-            yield return null;
-        }
-        [TestCaseSource(nameof(Placement_UseCases))]
-        public void Placement_ReturnsDefinedPlacement(Placement input, Placement expected)
-        {
-            poseData.Placement = input;
-
-            Assert.AreEqual(expected, poseData.Placement);
-        }
-
         public static IEnumerable Pose_UseCases()
         {
-            yield return new object[] { "Pose 1", new Placement(), new Pose("Pose 1", p => 1.0f) };
+            yield return new TestCaseData("Pose 1", new Placement(), new Pose("Pose 1", p => 1.0f));
         }
         [TestCaseSource(nameof(Pose_UseCases))]
         public void Pose_CreatesPoseUsingPlacement(string name, Placement placement, Pose expected)
         {
             poseData.name = name;
-            poseData.Placement = placement;
 
             var newPose = poseData.Pose;
 
             Assert.AreEqual(expected.Name, newPose.Name);
-            Assert.AreEqual(expected.Evaluate(new Placement()), newPose.Evaluate(new Placement()));
+            Assert.AreEqual(expected.Evaluate(placement), newPose.Evaluate(placement));
         }
     }
     #endregion
@@ -65,7 +51,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Name_UseCases()
         {
-            yield return new object[] { "Pose 1" };
+            yield return new TestCaseData("Pose 1");
         }
         [TestCaseSource(nameof(Name_UseCases))]
         public void Name_ReturnsDefinedName(string name)
@@ -77,13 +63,11 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Evaluate_UseCases()
         {
-            yield return new object[] { new Placement(), 1.0f };
+            yield return new TestCaseData(new Placement(), 1.0f);
         }
         [TestCaseSource(nameof(Evaluate_UseCases))]
         public void Evaluate_ReturnsPoseEvaluation(Placement placement, float expected)
         {
-            poseData.Placement = new Placement();
-
             Assert.AreEqual(expected, poseData.Evaluate(placement));
         }
     }

@@ -47,13 +47,14 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Register_PlacementTimePoses_UseCases()
         {
-            yield return new object[] { new Placement(), 0.0f, new List<IPose>(), null };
-            yield return new object[] { new Placement(), 0.0f, new List<IPose> { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.2f) }, new PoseEvent(new Placement(), new Pose("Pose 1", p => 1.0f), 0.0f) };
+            yield return new TestCaseData(new Placement(), 0.0f, new List<IPose>(), null);
+            yield return new TestCaseData(new Placement(), 0.0f, new List<IPose> { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.2f) }, PoseEvent.New(new Placement(), new Pose("Pose 1", p => 1.0f), 0.0f));
         }
         [TestCaseSource(nameof(Register_PlacementTimePoses_UseCases))]
         public void Register_PlacementTimePoses_CreatesPoseEventAndAddsToBuffer(Placement placement, float time, IList<IPose> poses, PoseEvent? poseEvent)
         {
-            recognizerBehaviour.Register(placement, time, poses);
+            Assert.Fail("Test is currently incomplete");
+            recognizerBehaviour.Register(placement, time);
 
             if (poseEvent is PoseEvent pe) CollectionAssert.Contains(recognizerBehaviour.Buffer, pe);
         }

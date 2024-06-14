@@ -27,6 +27,16 @@ namespace MartonioJunior.EdKit
         }
     }
 
+    #region ToString
+    public partial struct Pose
+    {
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
+    }
+    #endregion
+
     #region IPose Implementation
     public partial struct Pose: IPose
     {

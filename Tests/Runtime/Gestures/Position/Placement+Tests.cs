@@ -1,7 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using MartonioJunior.EdKit;
 
 namespace Tests.MartonioJunior.EdKit
@@ -24,11 +23,6 @@ namespace Tests.MartonioJunior.EdKit
         {
             get => new Placement(Orientation_Tests.Mock, Orientation_Tests.Mock, Orientation_Tests.Mock);
         }
-
-        public static Placement MockInstance(Orientation leftHand, Orientation rightHand, Orientation head)
-        {
-            return new Placement(leftHand, rightHand, head);
-        }
     }
     #endregion
 
@@ -37,7 +31,7 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Initializer_UseCases()
         {
-            yield return new object[] { Orientation_Tests.Mock, Orientation_Tests.Mock, Orientation_Tests.Mock };
+            yield return new TestCaseData(Orientation_Tests.Mock, Orientation_Tests.Mock, Orientation_Tests.Mock);
         }
         [TestCaseSource(nameof(Initializer_UseCases))]
         public void Initializer_CreatesNewPlacementWithSpecifiedOrientations(Orientation leftHand, Orientation rightHand, Orientation head)
@@ -51,7 +45,9 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable ToString_UseCases()
         {
-            yield return null;
+            var placement = Mock;
+
+            yield return new TestCaseData(placement, $"Left Hand: {placement.LeftHand}, Right Hand: {placement.RightHand}, Head: {placement.Head}");
         }
         [TestCaseSource(nameof(ToString_UseCases))]
         public void ToString_ReturnsObjectDescription(Placement placement, string output)
@@ -66,7 +62,14 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(From_UseCases))]
         public void From_CreatesNewPlacementBasedOnTransforms(GameObject origin, GameObject leftHand, GameObject rightHand, GameObject head, Placement expected)
         {
-            Assert.Ignore("Not Implemented");
+            var actual = Placement.From(origin.transform, leftHand.transform, rightHand.transform, head.transform);
+
+            Assert.AreEqual(expected, actual);
+
+            Object.Destroy(origin);
+            Object.Destroy(leftHand);
+            Object.Destroy(rightHand);
+            Object.Destroy(head);
         }
     }
     #endregion

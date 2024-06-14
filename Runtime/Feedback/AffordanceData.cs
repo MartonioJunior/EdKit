@@ -6,30 +6,25 @@ namespace MartonioJunior.EdKit
     public partial class AffordanceData
     {
         // MARK: Variables
-        [SerializeField] string displayName;
+        [SerializeField] string description;
         [SerializeField] AudioClip clip;
-        [SerializeField] Color color;
         [SerializeField] Material material;
-        [SerializeField] UnityEvent action;
+        [SerializeField] UnityEvent<AffordanceEffect> customAction;
     }
 
     #region ScriptableObject Implementation
     [CreateAssetMenu(fileName = "New Affordance", menuName = "EdKit/Affordance")]
-    public partial class AffordanceData: ScriptableObject
-    {
-        
-    }
+    public partial class AffordanceData: ScriptableObject {}
     #endregion
 
     #region IAffordance Implementation
-    public partial class AffordanceData : IAffordance
+    public partial class AffordanceData: IAffordance<string, AudioClip, Material>
     {
-        public AudioClip Audio => clip;
-        public Color Color => color;
-        public Material Material => material;
-        public string Text => displayName;
+        public string TextFeedback => description;
+        public AudioClip AudioFeedback => clip;
+        public Material VisualFeedback => material;
 
-        public void Run() => action?.Invoke();
+        public void Update(AffordanceEffect effect) => customAction?.Invoke(effect);
     }
     #endregion
 }

@@ -10,7 +10,7 @@ namespace MartonioJunior.EdKit
     using UID = String;
     #endregion
 
-    [System.Serializable]
+    [Serializable]
     public partial struct Session
     {
         // MARK: Constants
@@ -20,10 +20,9 @@ namespace MartonioJunior.EdKit
         [SerializeField] DateTime date;
         [SerializeField] UID userID;
         [SerializeField] UID sceneID;
-        [SerializeField] object outcome;
-        [SerializeField] List<GestureEvent> gestureEvents;
-        [SerializeField] List<PoseEvent> poseEvents;
-        [SerializeField] List<object> customEvents;
+        [SerializeField] List<Activity> activities;
+        [SerializeField] List<Agent> agents;
+        [SerializeField] List<Entity> entities;
 
         // MARK: Properties
         public string Tag {
@@ -38,10 +37,9 @@ namespace MartonioJunior.EdKit
             this.date = DateTime.Now;
             this.userID = userID;
             this.sceneID = sceneID;
-            this.outcome = null;
-            this.gestureEvents = new List<GestureEvent>();
-            this.poseEvents = new List<PoseEvent>();
-            this.customEvents = new List<object>();
+            this.activities = new List<Activity>();
+            this.agents = new List<Agent>();
+            this.entities = new List<Entity>();
         }
 
         // MARK: Methods
@@ -61,29 +59,24 @@ namespace MartonioJunior.EdKit
 
             Debug.Log($"Saved Log to Path: {path}");
         }
-
-        public void SetOutcome(object outcome)
-        {
-            this.outcome = outcome;
-        }
     }
 
-    #region IAnalyticsModel Implementation
-    public partial struct Session: IAnalyticsModel
+    #region IProvenance Implementation
+    public partial struct Session: IProvenanceModel
     {
-        public void Register(GestureEvent gestureEvent)
+        public void Register(Activity activity)
         {
-            gestureEvents.Add(gestureEvent);
+            activities.Add(activity);
         }
 
-        public void Register(PoseEvent poseEvent)
+        public void Register(Agent agent)
         {
-            poseEvents.Add(poseEvent);
+            agents.Add(agent);
         }
 
-        public void RegisterAny(object anyObject)
+        public void Register(Entity entity)
         {
-            customEvents.Add(anyObject);
+            entities.Add(entity);
         }
     }
     #endregion

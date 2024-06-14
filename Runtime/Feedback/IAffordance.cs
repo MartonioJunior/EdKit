@@ -1,16 +1,11 @@
-using UnityEngine;
-
 namespace MartonioJunior.EdKit
 {
-    public partial interface IAffordance
+    public interface IAffordance<Text,Audio,Visual>
     {
-        // MARK: Variables
-        AudioClip Audio { get; }
-        Color Color { get; }
-        Material Material { get; }
-        string Text { get; }
+        Text TextFeedback { get; }
+        Audio AudioFeedback { get; }
+        Visual VisualFeedback { get; }
 
-        // MARK: Methods
-        void Run();
+        void Update(AffordanceEffect effect);
     }
 }

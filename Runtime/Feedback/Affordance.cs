@@ -3,37 +3,32 @@ using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
-    public partial struct Affordance
+    public partial struct Affordance<Text,Audio,Visual>
     {
         // MARK: Variables
-        Action customAction;
-        Func<AudioClip> audioFunction;
-        Func<Color> colorFunction;
-        Func<Material> materialFunction;
-        Func<string> textFunction;
+        Action<AffordanceEffect> onAffordance;
+        Func<Audio> audioFunction;
+        Func<Visual> visualFunction;
+        Func<Text> textFunction;
 
         // MARK: Initalizers
-        public Affordance(Action customAction, Func<AudioClip> audioFunction, Func<Color> colorFunction, Func<Material> materialFunction, Func<string> textFunction)
+        public Affordance(Action<AffordanceEffect> updateAction, Func<Audio> audioFunction, Func<Visual> visualFunction, Func<Text> textFunction)
         {
-            this.customAction = customAction;
+            this.onAffordance = updateAction;
             this.audioFunction = audioFunction;
-            this.colorFunction = colorFunction;
-            this.materialFunction = materialFunction;
+            this.visualFunction = visualFunction;
             this.textFunction = textFunction;
         }
     }
 
     #region IAffordance Implementation
-    public partial struct Affordance : IAffordance
+    public partial struct Affordance<Text,Audio,Visual>: IAffordance<Text,Audio,Visual>
     {
-        // MARK: Properties
-        public AudioClip Audio => audioFunction?.Invoke();
-        public Color Color => colorFunction?.Invoke() ?? Color.white;
-        public Material Material => materialFunction?.Invoke();
-        public string Text => textFunction?.Invoke() ?? string.Empty;
+        public Text TextFeedback => textFunction.Invoke();
+        public Visual VisualFeedback => visualFunction.Invoke();
+        public Audio AudioFeedback => audioFunction.Invoke();
 
-        // MARK: Methods
-        public void Run() => customAction?.Invoke();
+        public void Update(AffordanceEffect effect) => onAffordance?.Invoke(effect);
     }
     #endregion
 }
