@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -9,7 +10,7 @@ namespace MartonioJunior.EdKit
     public partial class SessionBehaviour
     {
         // MARK: Variables
-        [SerializeField] Session? session;
+        [SerializeField] Session? session = null;
 
         // MARK: Methods
         public void OpenSession(UID userID, UID sceneID)
@@ -22,11 +23,16 @@ namespace MartonioJunior.EdKit
             session = null;
         }
 
-        public void CloseSession(object outcome)
+        public void CloseSession(string outcome)
+        {
+            CloseSession(new Dictionary<string, object> { { "description", outcome } });
+        }
+
+        public void CloseSession(IDictionary<string, object> outcome)
         {
             if (session is not Session s) return;
 
-            s.SetOutcome(outcome);
+            s.RegisterOutcome(outcome);
             SaveToLog(s);
         }
 
@@ -38,29 +44,15 @@ namespace MartonioJunior.EdKit
 
     #region MonoBehaviour Implementation
     [AddComponentMenu("EdKit/Session Behaviour")]
-    public partial class SessionBehaviour: MonoBehaviour
-    {
-        
-    }
+    public partial class SessionBehaviour: MonoBehaviour {}
     #endregion
 
-    #region IAnalyticsModel Implementation
-    public partial class SessionBehaviour: IAnalyticsModel
+    #region IProvenance Implementation
+    public partial class SessionBehaviour: IProvenanceModel
     {
-        public void Register(GestureEvent gestureEvent)
-        {
-            session?.Register(gestureEvent);
-        }
-
-        public void Register(PoseEvent poseEvent)
-        {
-            session?.Register(poseEvent);
-        }
-
-        public void RegisterAny(object anyObject)
-        {
-            session?.RegisterAny(anyObject);
-        }
+        public void Register(Activity activity) => session?.Register(activity);
+        public void Register(Agent agent) => session?.Register(agent);
+        public void Register(Entity entity) => session?.Register(entity);
     }
     #endregion
 }
