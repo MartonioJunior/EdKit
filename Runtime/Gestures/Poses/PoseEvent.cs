@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,6 +55,16 @@ namespace MartonioJunior.EdKit
         public override string ToString()
         {
             return $"PoseEvent: {pose}({Placement}) - {Score} - {timestamp}";
+        }
+    }
+    #endregion
+
+    #region IEquatable Implementation
+    public partial struct PoseEvent: IEquatable<PoseEvent>
+    {
+        public bool Equals(PoseEvent other)
+        {
+            return actorPlacement.Equals(other.actorPlacement) && pose.Equals(other.pose) && timestamp.Equals(other.timestamp);
         }
     }
     #endregion
