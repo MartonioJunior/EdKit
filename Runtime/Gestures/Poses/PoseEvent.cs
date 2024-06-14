@@ -20,7 +20,7 @@ namespace MartonioJunior.EdKit
         public float Score => score;
 
         // MARK: Initializers
-        public PoseEvent(Placement actorPlacement, IPose pose, float timestamp)
+        private PoseEvent(Placement actorPlacement, IPose pose, float timestamp)
         {
             this.actorPlacement = actorPlacement;
             this.pose = pose;
@@ -29,9 +29,22 @@ namespace MartonioJunior.EdKit
         }
 
         // MARK: Methods
-        public static PoseEvent? From(Placement placement, float timestamp, IList<IPose> posesToCheck)
+        public static PoseEvent? From<T>(Placement placement, float timestamp, IEnumerable<T> posesToCheck, float threshold = 0.0001f) where T: IPose
         {
-            return posesToCheck.Select(pose => new PoseEvent(placement, pose, timestamp)).OrderByDescending(poseEvent => poseEvent.Score).FirstOrDefault();
+            if (timestamp <= 0.0f) return null;
+
+            var results = posesToCheck
+                    .Select(pose => new PoseEvent(placement, pose, timestamp))
+                    .Where(e => e.Pose != null && e.Score > threshold)
+                    .OrderByDescending(poseEvent => poseEvent.Score)
+                    .ToArray();
+
+            return results.Length > 0 ? results[0]: null;
+        }
+
+        public static PoseEvent? New(Placement actorPlacement, IPose pose, float timestamp)
+        {
+            return new PoseEvent(actorPlacement, pose, timestamp);
         }
     }
 }
