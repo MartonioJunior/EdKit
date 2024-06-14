@@ -89,4 +89,22 @@ namespace MartonioJunior.EdKit
         }
     }
     #endregion
+
+    #region IProvenanceData Implementation
+    public partial struct PoseEvent: IProvenanceData
+    {
+        public string ID => pose.Name;
+        public string Type => "PoseEvent";
+        public IDictionary<string, object> Attributes => new Dictionary<string, object>
+        {
+            { "timestamp", Timestamp },
+            { "score", Score }
+        };
+
+        public void RegisterTo(IProvenanceModel provenance)
+        {
+            provenance.Register(this.AsActivity());
+        }
+    }
+    #endregion
 }
