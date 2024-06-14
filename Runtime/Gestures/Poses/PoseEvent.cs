@@ -68,4 +68,25 @@ namespace MartonioJunior.EdKit
         }
     }
     #endregion
+
+    #region IList Extensions
+    public static partial class IListExtensions
+    {
+        public static void Squash(this IList<PoseEvent> self)
+        {
+            for(int i = 1; i < self.Count; i++) {
+                var lastEvent = self[^i];
+                var currentEvent = self[^(i-1)];
+
+                if (currentEvent.Pose.Name != lastEvent.Pose.Name) continue;
+
+                if (currentEvent.Score < lastEvent.Score) {
+                    self.RemoveAt(self.Count - i - 1);
+                } else {
+                    self.RemoveAt(self.Count - i);
+                }
+            }
+        }
+    }
+    #endregion
 }
