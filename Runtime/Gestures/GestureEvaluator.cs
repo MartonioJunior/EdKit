@@ -9,6 +9,7 @@ namespace MartonioJunior.EdKit
     {
         // MARK: Variables
         [SerializeField] List<GestureData> gestures;
+        ISet<IGesture> nonSerializedGestures;
         ISet<IPose> poses;
 
         // MARK: Initializers
@@ -16,6 +17,7 @@ namespace MartonioJunior.EdKit
         {
             this.poses = new HashSet<IPose>();
             this.gestures = gestures;
+            this.nonSerializedGestures = new HashSet<IGesture>();
 
             foreach (GestureData gesture in gestures) {
                 foreach (IPose pose in gesture.Poses) {
@@ -28,11 +30,17 @@ namespace MartonioJunior.EdKit
         public GestureEvent? GestureEventFor(List<PoseEvent> poseEvents) => GestureEvent.From(poseEvents, gestures);
         public PoseEvent? PoseEventFor(Placement placement, float time) => PoseEvent.From(placement, time, poses);
 
-        public void RegisterGesture(GestureData gesture)
+        public void RegisterGesture(IGesture gesture)
         {
-            gestures.Add(gesture);
-            foreach (IPose pose in gesture.Poses) {
-                poses.Add(pose);
+            if (gesture is GestureData gd && !gestures.Contains(gd)) {
+                gestures.Add(gd);
+                foreach (IPose pose in gd.Poses) {
+                    poses.Add(pose);
+                }
+            } else if (!nonSerializedGestures.Contains(gesture)) {
+                nonSerializedGestures.Add(gesture);
+            } else {
+                return;
             }
         }
 
