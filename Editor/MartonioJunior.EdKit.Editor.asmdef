@@ -1,7 +1,9 @@
 {
     "name": "MartonioJunior.EdKit.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:c69944f14b8e64ce281b8890fcd74e90"
+    ],
     "includePlatforms": [
         "Editor"
     ],
