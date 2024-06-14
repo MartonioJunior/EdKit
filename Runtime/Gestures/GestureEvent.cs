@@ -41,4 +41,23 @@ namespace MartonioJunior.EdKit
             return results.Length > 0 ? results[0]: null;
         }
     }
+
+    #region IProvenanceData Implementation
+    public partial struct GestureEvent: IProvenanceData
+    {
+        public string ID => gesture.Name;
+        public string Type => "GestureEvent";
+        public IDictionary<string, object> Attributes => new Dictionary<string, object>
+        {
+            { "startTime", poseEvents[0].Timestamp },
+            { "endTime", poseEvents[^1].Timestamp },
+            { "score", Score }
+        };
+
+        public void RegisterTo(IProvenanceModel provenance)
+        {
+            provenance.Register(this.AsActivity(wasAssociatedWith: poseEvents.Select(p => p.ID).Reduce("", (a,b) => a + "," + b)));
+        }
+    }
+    #endregion
 }
