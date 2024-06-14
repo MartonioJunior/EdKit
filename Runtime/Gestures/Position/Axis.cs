@@ -19,43 +19,43 @@ namespace MartonioJunior.EdKit
             this.z = z;
         }
 
-        public Axis(Vector3 vector)
+        public Axis(Vector3 vector, Vector3? deadzone = null)
         {
-            x = GetX(vector);
-            y = GetY(vector);
-            z = GetZ(vector);
+            x = GetX(vector, deadzone?.x ?? 0);
+            y = GetY(vector, deadzone?.y ?? 0);
+            z = GetZ(vector, deadzone?.z ?? 0);
         }
 
         // MARK: Methods
-        public static X GetX(Vector3 vector)
+        public static X GetX(Vector3 vector, float deadzone = 0)
         {
             return vector.x switch
             {
                 float x when float.IsNaN(x) => X.None,
-                float x when x < 0 => X.Left,
-                float x when x > 0 => X.Right,
+                float x when x < deadzone => X.Left,
+                float x when x > deadzone => X.Right,
                 _ => X.Center,
             };
         }
 
-        public static Y GetY(Vector3 vector)
+        public static Y GetY(Vector3 vector, float deadzone = 0)
         {
             return vector.y switch
             {
                 float y when float.IsNaN(y) => Y.None,
-                float y when y < 0 => Y.Below,
-                float y when y > 0 => Y.Above,
+                float y when y < deadzone => Y.Below,
+                float y when y > deadzone => Y.Above,
                 _ => Y.Neutral,
             };
         }
 
-        public static Z GetZ(Vector3 vector)
+        public static Z GetZ(Vector3 vector, float deadzone = 0)
         {
             return vector.z switch
             {
                 float z when float.IsNaN(z) => Z.None,
-                float z when z < 0 => Z.Back,
-                float z when z > 0 => Z.Front,
+                float z when z < deadzone => Z.Back,
+                float z when z > deadzone => Z.Front,
                 _ => Z.Body,
             };
         }
