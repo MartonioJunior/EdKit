@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -5,10 +6,13 @@ namespace MartonioJunior.EdKit
     public partial class PoseData
     {
         // MARK: Variables
+        [Header("Left Hand")]
         [SerializeField] Bounds positionBoundsLeftHand;
         [SerializeField] Bounds rotationBoundsLeftHand;
+        [Header("Right Hand")]
         [SerializeField] Bounds positionBoundsRightHand;
         [SerializeField] Bounds rotationBoundsRightHand;
+        [Header("Head")]
         [SerializeField] Bounds positionBoundsHead;
         [SerializeField] Bounds rotationBoundsHead;
 
@@ -42,10 +46,7 @@ namespace MartonioJunior.EdKit
 
     #region ScriptableObject Implementation
     [CreateAssetMenu(fileName="New Pose", menuName="EdKit/Pose")]
-    public partial class PoseData: ScriptableObject
-    {
-        
-    }
+    public partial class PoseData: ScriptableObject {}
     #endregion
 
     #region IPose Implementation

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace MartonioJunior.EdKit
 {
     public partial interface IPose
