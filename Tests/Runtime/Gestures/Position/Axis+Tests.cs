@@ -37,7 +37,7 @@ namespace Tests.MartonioJunior.EdKit
             yield return new TestCaseData(new Vector3(2,-1,0), Axis.X.Right, Axis.Y.Below, Axis.Z.Body);
             yield return new TestCaseData(new Vector3(-3,1,8), Axis.X.Left, Axis.Y.Above, Axis.Z.Front);
             yield return new TestCaseData(new Vector3(0,0,-4), Axis.X.Center, Axis.Y.Neutral, Axis.Z.Back);
-            yield return new TestCaseData(new Vector3(float.NaN,float.NaN,float.NaN), Axis.X.None, Axis.Y.None, Axis.Z.None);
+            yield return new TestCaseData(new Vector3(float.NaN,float.NaN,float.NaN), Axis.X.NoneX, Axis.Y.NoneY, Axis.Z.NoneZ);
         }
         [TestCaseSource(nameof(Initializer_Vector3_UseCases))]
         public void Initializer_Vector3_CreatesNewAxisBasedOnVector(Vector3 vector, Axis.X x, Axis.Y y, Axis.Z z)
@@ -54,7 +54,7 @@ namespace Tests.MartonioJunior.EdKit
             yield return new TestCaseData(new Vector3(2,-1,0), Axis.X.Right);
             yield return new TestCaseData(new Vector3(-3,1,8), Axis.X.Left);
             yield return new TestCaseData(new Vector3(0,0,-4), Axis.X.Center);
-            yield return new TestCaseData(new Vector3(float.NaN,2,5), Axis.X.None);
+            yield return new TestCaseData(new Vector3(float.NaN,2,5), Axis.X.NoneX);
         }
         [TestCaseSource(nameof(GetX_UseCases))]
         public void GetX_ReturnsAxisXForVectorX(Vector3 vector, Axis.X expected)
@@ -69,7 +69,7 @@ namespace Tests.MartonioJunior.EdKit
             yield return new TestCaseData(new Vector3(2,-1,0), Axis.Y.Below);
             yield return new TestCaseData(new Vector3(-3,1,8), Axis.Y.Above);
             yield return new TestCaseData(new Vector3(0,0,-4), Axis.Y.Neutral);
-            yield return new TestCaseData(new Vector3(2,float.NaN,5), Axis.Y.None);
+            yield return new TestCaseData(new Vector3(2,float.NaN,5), Axis.Y.NoneY);
         }
         [TestCaseSource(nameof(GetY_UseCases))]
         public void GetY_ReturnsAxisYForVectorY(Vector3 vector, Axis.Y expected)
@@ -84,7 +84,7 @@ namespace Tests.MartonioJunior.EdKit
             yield return new TestCaseData(new Vector3(2,-1,0), Axis.Z.Body);
             yield return new TestCaseData(new Vector3(-3,1,8), Axis.Z.Front);
             yield return new TestCaseData(new Vector3(0,0,-4), Axis.Z.Back);
-            yield return new TestCaseData(new Vector3(2,5,float.NaN), Axis.Z.None);
+            yield return new TestCaseData(new Vector3(2,5,float.NaN), Axis.Z.NoneZ);
         }
         [TestCaseSource(nameof(GetZ_UseCases))]
         public void GetZ_ReturnsAxisZForVectorZ(Vector3 vector, Axis.Z expected)
