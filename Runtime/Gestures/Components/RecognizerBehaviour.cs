@@ -27,7 +27,7 @@ namespace MartonioJunior.EdKit
             buffer.Clear();
         }
 
-        public void Register<T>(Placement placement, float? time = null) where T: IPose
+        public void Register(Placement placement, float? time = null)
         {
             if (buffer.Count >= bufferSize) {
                 buffer.RemoveAt(0);
