@@ -6,6 +6,6 @@ namespace MartonioJunior.EdKit
         Audio AudioFeedback { get; }
         Visual VisualFeedback { get; }
 
-        void Update(AffordanceEffect effect);
+        void UpdateAffordance(AffordanceEffect effect);
     }
 }

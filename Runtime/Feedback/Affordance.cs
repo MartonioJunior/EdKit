@@ -28,7 +28,7 @@ namespace MartonioJunior.EdKit
         public Visual VisualFeedback => visualFunction.Invoke();
         public Audio AudioFeedback => audioFunction.Invoke();
 
-        public void Update(AffordanceEffect effect) => onAffordance?.Invoke(effect);
+        public void UpdateAffordance(AffordanceEffect effect) => onAffordance?.Invoke(effect);
     }
     #endregion
 }

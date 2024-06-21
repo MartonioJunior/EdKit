@@ -24,7 +24,7 @@ namespace MartonioJunior.EdKit
         public AudioClip AudioFeedback => clip;
         public Material VisualFeedback => material;
 
-        public void Update(AffordanceEffect effect) => customAction?.Invoke(effect);
+        public void UpdateAffordance(AffordanceEffect effect) => customAction?.Invoke(effect);
     }
     #endregion
 }
