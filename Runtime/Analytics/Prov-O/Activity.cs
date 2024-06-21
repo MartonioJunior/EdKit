@@ -22,5 +22,18 @@ namespace MartonioJunior.EdKit
             this.used = used;
             this.wasAssociatedWith = wasAssociatedWith;
         }
+
+        // MARK: Methods
+        public Activity AssociatedWith(Agent agent)
+        {
+            wasAssociatedWith = agent.agentID;
+            return this;
+        }
+
+        public Activity UsedBy(Entity entity)
+        {
+            used = entity.entityID;
+            return this;
+        }
     }
 }
