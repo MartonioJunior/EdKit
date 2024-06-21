@@ -13,11 +13,6 @@ namespace MartonioJunior.EdKit
     #region Default Implementation
     public static partial class IProvenanceExtensions
     {
-        public static void Register(this IProvenanceModel self, IProvenanceData data)
-        {
-            data.RegisterTo(self);
-        }
-
         public static void RegisterOutcome(this IProvenanceModel self, IDictionary<string, object> outcomeData)
         {
             self.Register(new Entity("outcome", "Outcome", outcomeData));
