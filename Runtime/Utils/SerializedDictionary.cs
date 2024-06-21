@@ -26,6 +26,8 @@ namespace MartonioJunior.EdKit
         [SerializeField] List<V> values = new();
 
         // MARK: Initializers
+        public SerializedDictionary() {}
+
         public SerializedDictionary(IDictionary<K,V> dictionary)
         {
             foreach (var pair in dictionary) {
