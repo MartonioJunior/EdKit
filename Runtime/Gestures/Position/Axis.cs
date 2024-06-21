@@ -81,4 +81,42 @@ namespace MartonioJunior.EdKit
         [Flags] public enum Z { NoneZ = 0, Back = 1, Body = 2, Front = 4 }
     }
     #endregion
+
+    #region Sign
+    public static partial class AxisExtensions
+    {
+        public static float Sign(this Axis.X self, float value = 1)
+        {
+            return self switch
+            {
+                Axis.X.Left => -value,
+                Axis.X.Center => 0,
+                Axis.X.Right => value,
+                _ => float.NaN,
+            };
+        }
+
+        public static float Sign(this Axis.Y self, float value = 1)
+        {
+            return self switch
+            {
+                Axis.Y.Below => -value,
+                Axis.Y.Neutral => 0,
+                Axis.Y.Above => value,
+                _ => float.NaN,
+            };
+        }
+
+        public static float Sign(this Axis.Z self, float value = 1)
+        {
+            return self switch
+            {
+                Axis.Z.Back => -value,
+                Axis.Z.Body => 0,
+                Axis.Z.Front => value,
+                _ => float.NaN,
+            };
+        }
+    }
+    #endregion
 }
