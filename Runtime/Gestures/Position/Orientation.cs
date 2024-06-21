@@ -23,9 +23,12 @@ namespace MartonioJunior.EdKit
         }
 
         // MARK: Methods
-        public Axis ComparePositionTo(Orientation other, Bounds bounds)
+        public Axis ComparePosition(Orientation? other = null, Bounds? bounds = null)
         {
-            var delta = other.NormalizedPositionIn(bounds) - NormalizedPositionIn(bounds);
+            var boundsOrDefault = bounds ?? new Bounds(Vector3.zero, Vector3.one);
+            var otherOrDefault = other ?? identity;
+
+            var delta = otherOrDefault.NormalizedPositionIn(boundsOrDefault) - NormalizedPositionIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
         }
 
