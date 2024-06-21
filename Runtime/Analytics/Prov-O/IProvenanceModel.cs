@@ -20,7 +20,7 @@ namespace MartonioJunior.EdKit
 
         public static void RegisterOutcome(this IProvenanceModel self, IDictionary<string, object> outcomeData)
         {
-            self.Register(new Entity("outcome", "outcome", outcomeData));
+            self.Register(new Entity("outcome", "Outcome", outcomeData));
         }
     }
     #endregion
