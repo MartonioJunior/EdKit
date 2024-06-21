@@ -25,14 +25,14 @@ namespace MartonioJunior.EdKit
     {
         public string Name => name;
 
-        public float Evaluate(IList<PoseEvent> events)
+        public float Evaluate(IList<Event<IPose, Placement>> events)
         {
             float numberOfPoses = poses.Length + 1;
             var poseScore = 0f;
             var poseIndex = 1;
 
             for (int i = 1; i < numberOfPoses; i++) {
-                if (events[^i].Pose.Name != poses[^poseIndex].Name) continue;
+                if (events[^i].Object.Equals(poses[^poseIndex])) continue;
 
                 poseScore += events[^i].Score;
                 poseIndex++;

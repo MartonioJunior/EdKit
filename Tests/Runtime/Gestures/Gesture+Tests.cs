@@ -9,6 +9,7 @@ using Pose = MartonioJunior.EdKit.Pose;
 
 namespace Tests.MartonioJunior.EdKit
 {
+
     #region Test Setup
     public partial class Gesture_Tests
     {
@@ -25,14 +26,14 @@ namespace Tests.MartonioJunior.EdKit
     {
         public static IEnumerable Initialize_ScoreList_UseCases()
         {
-            Func<IList<PoseEvent>, float> scoreFunction = (events) => 4.9f;
+            Func<IList<Event<IPose, Placement>>, float> scoreFunction = (events) => 4.9f;
             yield return new TestCaseData("Gesture", scoreFunction, 4.9f);
         }
         [TestCaseSource(nameof(Initialize_ScoreList_UseCases))]
-        public void Initialize_ScoreList_InstancesGestureFromScoringFunction(string name, Func<IList<PoseEvent>, float> scoreFunction, float score)
+        public void Initialize_ScoreList_InstancesGestureFromScoringFunction(string name, Func<IList<Event<IPose, Placement>>, float> scoreFunction, float score)
         {
             var gesture = new Gesture(name, scoreFunction);
-            var poseEvents = new List<PoseEvent>();
+            var poseEvents = new List<Event<IPose, Placement>>();
 
             Assert.AreEqual(name, gesture.Name);
             Assert.AreEqual(score, gesture.Evaluate(poseEvents));
@@ -40,13 +41,13 @@ namespace Tests.MartonioJunior.EdKit
 
         public static IEnumerable Initializer_ScoreElement_UseCases()
         {
-            yield return new TestCaseData("Gesture", new List<Func<PoseEvent, float>> { (poseEvent) => 4.9f }, 4.9f);
+            yield return new TestCaseData("Gesture", new List<Func<Event<IPose, Placement>, float>> { (poseEvent) => 4.9f }, 4.9f);
         }
         [TestCaseSource(nameof(Initializer_ScoreElement_UseCases))]
-        public void Initializer_ScoreElement_InstancesGestureFromListOfPoseEventScorers(string name, IList<Func<PoseEvent, float>> scoreFunctions, float score)
+        public void Initializer_ScoreElement_InstancesGestureFromListOfPoseEventScorers(string name, IList<Func<Event<IPose, Placement>, float>> scoreFunctions, float score)
         {
             var gesture = new Gesture(name, scoreFunctions);
-            var poseEvents = new List<PoseEvent>();
+            var poseEvents = new List<Event<IPose, Placement>>();
 
             Assert.AreEqual(name, gesture.Name);
             Assert.AreEqual(score, gesture.Evaluate(poseEvents));
@@ -72,13 +73,13 @@ namespace Tests.MartonioJunior.EdKit
         {
             var placement = new Placement();
             var pose = new Pose("Fly", (e) => 2.5f);
-            var poseEvent = PoseEvent.New(placement, pose, 0.7f);
-            yield return new TestCaseData(new List<PoseEvent?> { poseEvent }, 2.5f);
+            var poseEvent = Event<IPose, Placement>.New(pose, placement, 0.7f);
+            yield return new TestCaseData(new List<Event<IPose, Placement>?> { poseEvent }, 2.5f);
         }
         [TestCaseSource(nameof(Evaluate_UseCases))]
-        public void Evaluate_ReturnsScoreFromListOfPoseEvents(IList<PoseEvent?> events, float expectedScore)
+        public void Evaluate_ReturnsScoreFromListOfPoseEvents(IList<Event<IPose, Placement>?> events, float expectedScore)
         {
-            if (events is not IList<PoseEvent> poseEvents) return;
+            if (events is not IList<Event<IPose, Placement>> poseEvents) return;
 
             var gesture = new Gesture("Fly", _ => expectedScore);
             var score = gesture.Evaluate(poseEvents);

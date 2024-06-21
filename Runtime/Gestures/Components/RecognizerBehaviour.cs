@@ -4,19 +4,24 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.EdKit
 {
+    using GestureEvent = Event<IGesture, List<Event<IPose, Placement>>>;
+
     public partial class RecognizerBehaviour
     {
         // MARK: Variables
-        [SerializeField] List<PoseEvent> buffer;
         [SerializeField] int bufferSize = 10;
-        [SerializeField] GestureEvaluator evaluator;
+        [SerializeField, Range(0,1)] float poseThreshold = 0.8f;
+        [SerializeField, Range(0,1)] float gestureThreshold = 0.8f;
+        List<Event<IPose, Placement>> buffer;
+        GestureEvaluator evaluator;
 
         // MARK: Properties
-        public List<PoseEvent> Buffer => buffer;
+        public List<Event<IPose, Placement>> Buffer => buffer;
+        public GestureEvaluator Evaluator => evaluator;
         
         // MARK: Events
         [SerializeField] UnityEvent<GestureEvent> onGestureRecognized = new();
-        [SerializeField] UnityEvent<PoseEvent> onPoseRecognized = new();
+        [SerializeField] UnityEvent<Event<IPose, Placement>> onPoseRecognized = new();
 
         // MARK: Methods
         public void EvaluateBuffer()
@@ -35,14 +40,14 @@ namespace MartonioJunior.EdKit
 
             var baseTime = time ?? Time.time;
 
-            if (evaluator.PoseEventFor(placement, baseTime) is not PoseEvent pe) return;
+            if (evaluator.PoseEventFor(placement, baseTime, poseThreshold) is not Event<IPose, Placement> pe) return;
 
             buffer.Add(pe);
             onPoseRecognized.Invoke(pe);
         }
 
         public void RegisterGesture(GestureData gesture) => evaluator.RegisterGesture(gesture);
-        public GestureEvent? Peek() => evaluator.GestureEventFor(buffer);
+        public GestureEvent? Peek() => evaluator.GestureEventFor(buffer, gestureThreshold);
         public void UnregisterGesture(GestureData gesture) => evaluator.UnregisterGesture(gesture);
     }
 

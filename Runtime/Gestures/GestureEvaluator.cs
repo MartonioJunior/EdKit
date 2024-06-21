@@ -4,49 +4,85 @@ using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
+    using GestureEvent = Event<IGesture, List<Event<IPose, Placement>>>;
+
     [Serializable]
     public partial struct GestureEvaluator
     {
         // MARK: Variables
+#if UNITY_EDITOR
         [SerializeField] List<GestureData> gestures;
-        ISet<IGesture> nonSerializedGestures;
+#endif
+        ISet<IGesture> allGestures;
         ISet<IPose> poses;
 
         // MARK: Initializers
-        public GestureEvaluator(List<GestureData> gestures)
+        public GestureEvaluator(IEnumerable<IGesture> gestures)
         {
-            this.poses = new HashSet<IPose>();
-            this.gestures = gestures;
-            this.nonSerializedGestures = new HashSet<IGesture>();
+            poses = new HashSet<IPose>();
+            allGestures = new HashSet<IGesture>(gestures);
+#if UNITY_EDITOR
+            this.gestures = new List<GestureData>();
+#endif
 
-            foreach (GestureData gesture in gestures) {
-                foreach (IPose pose in gesture.Poses) {
+            foreach (var gesture in allGestures) {
+                if (gesture is not GestureData gd) continue;
+#if UNITY_EDITOR
+                this.gestures.Add(gd);
+#endif
+                foreach (IPose pose in gd.Poses) {
                     poses.Add(pose);
                 }
             }
         }
 
         // MARK: Methods
-        public GestureEvent? GestureEventFor(List<PoseEvent> poseEvents) => GestureEvent.From(poseEvents, gestures);
-        public PoseEvent? PoseEventFor(Placement placement, float time) => PoseEvent.From(placement, time, poses);
-
-        public void RegisterGesture(IGesture gesture)
+        public GestureEvent? GestureEventFor(List<Event<IPose, Placement>> poseEvents, float threshold = 0)
         {
-            if (gesture is GestureData gd && !gestures.Contains(gd)) {
-                gestures.Add(gd);
-                foreach (IPose pose in gd.Poses) {
-                    poses.Add(pose);
-                }
-            } else if (!nonSerializedGestures.Contains(gesture)) {
-                nonSerializedGestures.Add(gesture);
+            if (Event.From(poseEvents, allGestures, 0.0f) is GestureEvent ge && ge.Score >= threshold) {
+                return ge;
             } else {
-                return;
+                return null;
             }
         }
 
-        public void UnregisterGesture(GestureData gesture)
+        public Event<IPose, Placement>? PoseEventFor(Placement placement, float time, float threshold = 0)
         {
-            gestures.Remove(gesture);
+            if (Event.From(placement, poses, time) is Event<IPose, Placement> pe && pe.Score >= threshold) {
+                return pe;
+            } else {
+                return null;
+            }
         }
+
+        public void RegisterGesture(IGesture gesture)
+        {
+            if (!allGestures.Contains(gesture)) {
+                allGestures.Add(gesture);
+            }
+
+            if (gesture is GestureData gestureData) {
+#if UNITY_EDITOR
+                gestures.Add(gestureData);
+#endif
+                foreach (IPose pose in gestureData.Poses) {
+                    poses.Add(pose);
+                }
+            }
+        }
+
+        public void RegisterPose(IPose pose) => poses.Add(pose);
+        public void UnregisterGesture(IGesture gesture)
+        {
+            allGestures.Remove(gesture);
+
+            if (gesture is GestureData gd) {
+#if UNITY_EDITOR
+                gestures.Remove(gd);
+#endif
+            }
+        }
+
+        public void UnregisterPose(IPose pose) => poses.Remove(pose);
     }
 }
