@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,6 +26,11 @@ namespace MartonioJunior.EdKit
 
             currentEffect = effect;
             timer = effect.Duration;
+        }
+
+        public void Stop()
+        {
+            timer = 0;
         }
     }
 
