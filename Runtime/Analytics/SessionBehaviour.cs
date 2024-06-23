@@ -11,6 +11,11 @@ namespace MartonioJunior.EdKit
     {
         // MARK: Variables
         Session? session = null;
+#if UNITY_EDITOR
+        [Header("Editor Settings")]
+        [SerializeField, Tooltip("Saves log when leaving Play Mode")] bool saveLogInEditor = true;
+#endif
+
 
         // MARK: Methods
         public void OpenSession(UID userID, UID sceneID)
@@ -38,6 +43,9 @@ namespace MartonioJunior.EdKit
 
         private void SaveToLog(Session session)
         {
+#if UNITY_EDITOR
+            if (!saveLogInEditor) return;
+#endif
             _ = session.SaveToLog(Application.persistentDataPath);
         }
     }
