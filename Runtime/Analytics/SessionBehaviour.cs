@@ -10,7 +10,7 @@ namespace MartonioJunior.EdKit
     public partial class SessionBehaviour
     {
         // MARK: Variables
-        [SerializeField] Session? session = null;
+        Session? session = null;
 
         // MARK: Methods
         public void OpenSession(UID userID, UID sceneID)
