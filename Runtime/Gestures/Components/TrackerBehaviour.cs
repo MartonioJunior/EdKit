@@ -21,7 +21,7 @@ namespace MartonioJunior.EdKit
         }
         
         // MARK: Events
-        [SerializeField] UnityEvent<Placement> onUpdatePlacement;
+        [SerializeField] UnityEvent<Placement> onUpdatePlacement = new();
         
         // MARK: Methods
         public Placement GetPlacement()
