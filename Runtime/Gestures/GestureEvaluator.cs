@@ -7,19 +7,20 @@ namespace MartonioJunior.EdKit
     using GestureEvent = Event<IGesture, List<Event<IPose, Placement>>>;
 
     [Serializable]
-    public partial struct GestureEvaluator
+    public partial class GestureEvaluator
     {
         // MARK: Variables
 #if UNITY_EDITOR
-        [SerializeField] List<GestureData> gestures;
+        [SerializeField] List<GestureData> gestures = new();
 #endif
-        ISet<IGesture> allGestures;
-        ISet<IPose> poses;
+        ISet<IGesture> allGestures = new HashSet<IGesture>();
+        ISet<IPose> poses = new HashSet<IPose>();
 
         // MARK: Initializers
+        public GestureEvaluator() {}
+
         public GestureEvaluator(IEnumerable<IGesture> gestures)
         {
-            poses = new HashSet<IPose>();
             allGestures = new HashSet<IGesture>(gestures);
 #if UNITY_EDITOR
             this.gestures = new List<GestureData>();
