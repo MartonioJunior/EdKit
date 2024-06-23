@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MartonioJunior.EdKit
 {
@@ -16,11 +17,16 @@ namespace MartonioJunior.EdKit
         [SerializeField, Tooltip("Saves log when leaving Play Mode")] bool saveLogInEditor = true;
 #endif
 
+        // MARK: Events
+        [SerializeField] UnityEvent<Session> onSessionOpened = new();
+        [SerializeField] UnityEvent<Session> onSessionClosed = new();
 
         // MARK: Methods
         public void OpenSession(UID userID, UID sceneID)
         {
-            session = new Session(userID, sceneID);
+            var s = new Session(userID, sceneID);
+            session = s;
+            onSessionOpened.Invoke(s);
         }
 
         public void ClearSession()
@@ -39,6 +45,7 @@ namespace MartonioJunior.EdKit
 
             s.RegisterOutcome(outcome);
             SaveToLog(s);
+            onSessionClosed.Invoke(s);
         }
 
         private void SaveToLog(Session session)
