@@ -12,8 +12,8 @@ namespace MartonioJunior.EdKit
         [SerializeField] int bufferSize = 10;
         [SerializeField, Range(0,1)] float poseThreshold = 0.8f;
         [SerializeField, Range(0,1)] float gestureThreshold = 0.8f;
-        List<Event<IPose, Placement>> buffer;
-        GestureEvaluator evaluator;
+        [SerializeField] GestureEvaluator evaluator = new();
+        List<Event<IPose, Placement>> buffer = new();
 
         // MARK: Properties
         public List<Event<IPose, Placement>> Buffer => buffer;
@@ -46,19 +46,26 @@ namespace MartonioJunior.EdKit
             onPoseRecognized.Invoke(pe);
         }
 
-        public void RegisterGesture(GestureData gesture) => evaluator.RegisterGesture(gesture);
         public GestureEvent? Peek() => evaluator.GestureEventFor(buffer, gestureThreshold);
-        public void UnregisterGesture(GestureData gesture) => evaluator.UnregisterGesture(gesture);
     }
 
     #region MonoBehaviour Implementation
     [AddComponentMenu("EdKit/Gesture Recognizer")]
     public partial class RecognizerBehaviour: MonoBehaviour
     {
-        void Update()
+        void FixedUpdate()
         {
             EvaluateBuffer();
         }
+    }
+    #endregion
+
+    #region UnityEvent Integration
+    public partial class RecognizerBehaviour
+    {
+        public void Register(Placement placement) => Register(placement, null);
+        public void RegisterGesture(GestureData gesture) => evaluator.RegisterGesture(gesture);
+        public void UnregisterGesture(GestureData gesture) => evaluator.UnregisterGesture(gesture);
     }
     #endregion
 }
