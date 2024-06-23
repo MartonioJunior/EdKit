@@ -29,7 +29,7 @@ namespace MartonioJunior.EdKit
     {
         public override string ToString()
         {
-            return $"Left Hand: {leftHand}, Right Hand: {rightHand}, Head: {head}";
+            return $"| Left Hand: {leftHand}\n| Right Hand: {rightHand}\n| Head: {head}";
         }
     }
     #endregion

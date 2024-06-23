@@ -71,7 +71,7 @@ namespace MartonioJunior.EdKit
     {
         public override string ToString()
         {
-            return $"Position: {relativePosition}, Rotation: {relativeRotation}";
+            return $"Pos. {relativePosition}, Rot. {relativeRotation}";
         }
     }
     #endregion

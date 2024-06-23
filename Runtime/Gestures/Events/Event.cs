@@ -79,7 +79,7 @@ namespace MartonioJunior.EdKit
     public partial struct Event<T,D>: IProvenanceData
     {
         public string ID => obj.Name;
-        public string Type => $"{typeof(T)}Event";
+        public string Type => $"{typeof(T).Name}Event";
         public IDictionary<string, object> Attributes {
             get {
                 var dictionary = new Dictionary<string, object> {
@@ -103,9 +103,11 @@ namespace MartonioJunior.EdKit
     #region ToString
     public partial struct Event<T, D>
     {
+        public string MinimalDebugInfo => $"[{Type}: {timestamp}s] {obj.Name} - Score: {score}";
+
         public override string ToString()
         {
-            return $"{Type}: {obj}({data}) - {score} - {timestamp}";
+            return $"{MinimalDebugInfo}\n{data}";
         }
     }
     #endregion
