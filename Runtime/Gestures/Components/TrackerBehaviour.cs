@@ -26,7 +26,7 @@ namespace MartonioJunior.EdKit
         // MARK: Methods
         public Placement GetPlacement()
         {
-            return Placement.From(xrTransform, leftHandTransform, rightHandTransform, headTransform);
+            return xrTransform.EdKitPlacement(leftHandTransform, rightHandTransform, headTransform);
         }
 
         public void Sample()

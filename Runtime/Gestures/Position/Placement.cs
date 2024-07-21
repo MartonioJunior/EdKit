@@ -35,9 +35,9 @@ namespace MartonioJunior.EdKit
     #endregion
 
     #region Transform
-    public partial struct Placement
+    public static partial class TransformExtensions
     {
-        public static Placement From(Transform origin, Transform leftHand, Transform rightHand, Transform head)
+        public static Placement EdKitPlacement(this Transform self, Transform leftHand, Transform rightHand, Transform head)
         {
             Vector3 forward = new Vector3(head.forward.x, 0.0f, head.forward.z).normalized;
             Vector3 up = origin.up;
