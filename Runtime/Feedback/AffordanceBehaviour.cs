@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,6 +27,15 @@ namespace MartonioJunior.EdKit
             timer = effect.Duration;
         }
 
+        public void Tick(float deltaTime)
+        {
+            if (timer <= 0) return;
+
+            deltaTime = Mathf.Min(deltaTime, timer);
+            onEffect?.Invoke(currentEffect.WithDuration(deltaTime));
+            timer -= deltaTime;
+        }
+
         public void Stop()
         {
             timer = 0;
@@ -40,12 +48,7 @@ namespace MartonioJunior.EdKit
     {
         void Update()
         {
-            if (timer <= 0) return;
-
-            var deltaTime = Mathf.Min(Time.deltaTime, timer);
-            var effectToApply = new AffordanceEffect(currentEffect.Alignment, currentEffect.Scale, deltaTime);
-            onEffect?.Invoke(effectToApply);
-            timer -= deltaTime;
+            Tick(Time.deltaTime);
         }
     }
     #endregion
