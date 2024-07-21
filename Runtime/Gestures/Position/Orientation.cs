@@ -47,20 +47,18 @@ namespace MartonioJunior.EdKit
         {
             return rotationBounds.Sample(relativeRotation.eulerAngles);
         }
-
-        public Orientation Place(Transform transform)
-        {
-            return Place(transform, Vector3.zero, Quaternion.identity);
-        }
         /**
         <summary>Places a transform in relation to another Transform.</summary>
         */
-        public Orientation Place(Transform transform, Vector3 offsetPosition, Quaternion offsetRotation)
+        public Orientation Place(Transform transform, Vector3? offsetPosition = null, Quaternion? offsetRotation = null)
         {
-            var delta = transform.position - this.relativePosition + offsetPosition;
+            var offsetPositionOrDefault = offsetPosition ?? Vector3.zero;
+            var offsetRotationOrDefault = offsetRotation ?? Quaternion.identity;
+
+            var delta = transform.position - this.relativePosition + offsetPositionOrDefault;
 
             var relativePosition = Quaternion.Inverse(this.relativeRotation) * delta;
-            var relativeRotation = Quaternion.Inverse(this.relativeRotation) * transform.rotation * offsetRotation;
+            var relativeRotation = Quaternion.Inverse(this.relativeRotation) * transform.rotation * offsetRotationOrDefault;
 
             return new Orientation(relativePosition, relativeRotation);
         }
