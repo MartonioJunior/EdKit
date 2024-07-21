@@ -22,4 +22,13 @@ namespace MartonioJunior.EdKit
             this.duration = duration;
         }
     }
+
+    #region Builder-like API
+    public partial struct AffordanceEffect
+    {
+        public AffordanceEffect WithAlignment(float newAlignment) => new(newAlignment, scale, duration);
+        public AffordanceEffect WithDuration(float newDuration) => new(alignment, scale, newDuration);
+        public AffordanceEffect WithScale(float newScale) => new(alignment, newScale, duration);
+    }
+    #endregion
 }
