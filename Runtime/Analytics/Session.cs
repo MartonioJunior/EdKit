@@ -32,9 +32,9 @@ namespace MartonioJunior.EdKit
         }
 
         // MARK: Initializers
-        public Session(UID userID, UID sceneID)
+        public Session(UID userID, UID sceneID, DateTime? date = null)
         {
-            this.date = DateTime.Now;
+            this.date = date ?? DateTime.Now;
             this.userID = userID;
             this.sceneID = sceneID;
             this.activities = new List<Activity>();
