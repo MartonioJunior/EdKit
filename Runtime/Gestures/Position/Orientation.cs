@@ -80,4 +80,17 @@ namespace MartonioJunior.EdKit
         }
     }
     #endregion
+
+    #region Transform
+    public static partial class TransformExtensions
+    {
+        public static Orientation OrientationFrom(this Transform self, Vector3? forward = null, Vector3? up = null)
+        {
+            Vector3 expectedUp = up ?? self.up;
+            Vector3 expectedForward = forward ?? self.forward;
+
+            return new Orientation(self.position, Quaternion.LookRotation(expectedForward, expectedUp));
+        }
+    }
+    #endregion
 }
