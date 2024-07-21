@@ -40,18 +40,8 @@ namespace MartonioJunior.EdKit
         public static Placement EdKitPlacement(this Transform self, Transform leftHand, Transform rightHand, Transform head)
         {
             Vector3 forward = new Vector3(head.forward.x, 0.0f, head.forward.z).normalized;
-            Vector3 up = origin.up;
 
-            var bodyOrientation = new Orientation(
-                new Vector3(origin.position.x, origin.position.y, origin.position.z),
-                Quaternion.LookRotation(forward, up)
-            );
-
-            return new Placement(
-                bodyOrientation.Place(leftHand),
-                bodyOrientation.Place(rightHand),
-                bodyOrientation.Place(head)
-            );
+            return self.OrientationFrom(forward: forward).PlacementFrom(leftHand, rightHand, head);
         }
     }
     #endregion
