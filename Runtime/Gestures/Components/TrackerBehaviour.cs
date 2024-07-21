@@ -12,13 +12,6 @@ namespace MartonioJunior.EdKit
         [SerializeField] Transform rightHandTransform;
         [SerializeField] Transform headTransform;
         [SerializeField] Transform xrTransform;
-
-        // MARK: Properties
-        public Placement Placement {
-            get {
-                return GetPlacement();
-            }
-        }
         
         // MARK: Events
         [SerializeField] UnityEvent<Placement> onUpdatePlacement = new();
