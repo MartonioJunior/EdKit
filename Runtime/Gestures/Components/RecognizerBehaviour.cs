@@ -4,24 +4,28 @@ using UnityEngine.Events;
 
 namespace MartonioJunior.EdKit
 {
+    #region Aliases
+    using PoseEvent = Event<IPose, Placement>;
     using GestureEvent = Event<IGesture, List<Event<IPose, Placement>>>;
+    #endregion
 
     public partial class RecognizerBehaviour
     {
         // MARK: Variables
+        List<PoseEvent> buffer = new();
         [SerializeField] int bufferSize = 10;
-        [SerializeField, Range(0,1)] float poseThreshold = 0.8f;
-        [SerializeField, Range(0,1)] float gestureThreshold = 0.8f;
-        [SerializeField] GestureEvaluator evaluator = new();
-        List<Event<IPose, Placement>> buffer = new();
+        [Header("Evaluation")]
+        [SerializeField] List<GestureData> gestures = new();
+        [SerializeField] GestureEvaluator gestureEvaluator = new();
+        [SerializeField] PoseEvaluator poseEvaluator = new();
 
         // MARK: Properties
-        public List<Event<IPose, Placement>> Buffer => buffer;
-        public GestureEvaluator Evaluator => evaluator;
+        public List<PoseEvent> Buffer => buffer;
+        public GestureEvaluator Evaluator => gestureEvaluator;
         
         // MARK: Events
         [SerializeField] UnityEvent<GestureEvent> onGestureRecognized = new();
-        [SerializeField] UnityEvent<Event<IPose, Placement>> onPoseRecognized = new();
+        [SerializeField] UnityEvent<PoseEvent> onPoseRecognized = new();
 
         // MARK: Methods
         public void EvaluateBuffer()
@@ -32,27 +36,47 @@ namespace MartonioJunior.EdKit
             buffer.Clear();
         }
 
+        public float ResolveTime(float? time) => time ?? Time.time;
+
         public void Register(Placement placement, float? time = null)
         {
             if (buffer.Count >= bufferSize) {
                 buffer.RemoveAt(0);
             }
 
-            var baseTime = time ?? Time.time;
-
-            if (evaluator.PoseEventFor(placement, baseTime, poseThreshold) is not Event<IPose, Placement> pe) return;
+            if (poseEvaluator.Evaluate(placement, ResolveTime(time)) is not PoseEvent pe) return;
 
             buffer.Add(pe);
             onPoseRecognized.Invoke(pe);
         }
 
-        public GestureEvent? Peek() => evaluator.GestureEventFor(buffer, gestureThreshold);
+        public void SetupEvaluators()
+        {
+            gestureEvaluator = new GestureEvaluator(gestures);
+            poseEvaluator = new PoseEvaluator(gestures.Reduce(new List<IPose>(), InsertPoses));
+
+            List<IPose> InsertPoses(List<IPose> poseList, GestureData gesture)
+            {
+                poseList.AddRange(gesture.Poses);
+                return poseList;
+            }
+        }
+
+        public GestureEvent? Peek(float? time = null)
+        {
+            return gestureEvaluator.Evaluate(buffer, ResolveTime(time));
+        }
     }
 
     #region MonoBehaviour Implementation
     [AddComponentMenu("EdKit/Gesture Recognizer")]
     public partial class RecognizerBehaviour: MonoBehaviour
     {
+        void Awake()
+        {
+            SetupEvaluators();
+        }
+
         void FixedUpdate()
         {
             EvaluateBuffer();
@@ -64,8 +88,19 @@ namespace MartonioJunior.EdKit
     public partial class RecognizerBehaviour
     {
         public void Register(Placement placement) => Register(placement, null);
-        public void RegisterGesture(GestureData gesture) => evaluator.RegisterGesture(gesture);
-        public void UnregisterGesture(GestureData gesture) => evaluator.UnregisterGesture(gesture);
+        public void RegisterGesture(GestureData gesture)
+        {
+            gestureEvaluator.Register(gesture);
+
+            foreach (var pose in gesture.Poses) {
+                poseEvaluator.Register(pose);
+            }
+        }
+
+        public void UnregisterGesture(GestureData gesture)
+        {
+            gestureEvaluator.Unregister(gesture);
+        }
     }
     #endregion
 }
