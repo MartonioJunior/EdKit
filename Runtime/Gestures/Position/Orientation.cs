@@ -64,6 +64,11 @@ namespace MartonioJunior.EdKit
 
             return new Orientation(relativePosition, relativeRotation);
         }
+
+        public Placement PlacementFrom(Transform leftHand, Transform rightHand, Transform head)
+        {
+            return new Placement(Place(leftHand), Place(rightHand), Place(head));
+        }
     }
 
     #region ToString
