@@ -43,11 +43,12 @@ namespace MartonioJunior.EdKit
         }
 
         // MARK: Methods
-        public async Task SaveToLog(string basePath)
+        public async Task SaveToLog(string basePath, string relativeFolder = "/Logs", string fileName = null, string fileExtension = "json")
         {
-            string LogsFullPath = basePath+"/Logs";
+            string LogsFullPath = basePath+relativeFolder;
+            string FileName = fileName ?? Tag+"_Log";
 
-            string path = LogsFullPath+$"/{Tag}_Log.json";
+            string path = LogsFullPath+$"/{FileName}."+fileExtension;
             string contents = JsonUtility.ToJson(this);
 
             if (!Directory.Exists(LogsFullPath)) {
