@@ -37,25 +37,23 @@ namespace MartonioJunior.EdKit
             return new(obj, data, timestamp);
         }
 
-        public bool Validate(T obj, float threshold = 0.8f)
-        {
-            return obj.Equals(this.obj) && Score >= Mathf.Clamp01(threshold);
-        }
+        public bool Validate(T obj, float threshold = 0.8f) => obj.Equals(this.obj) && ValidateScore(threshold);
+        public bool ValidateScore(float threshold = 0.8f) => Score >= Mathf.Max(threshold, 0);
     }
 
     #region Initialization Utilities
     public static partial class Event
     {
-        public static Event<T,D>? From<T,D>(D data, IEnumerable<T> objects, float timestamp) where T: IEventObject<D>
+        public static Event<T,D>? From<T,D>(D data, IEnumerable<T> objects, float timestamp, float scoreThreshold = 0) where T: IEventObject<D>
         {
             var results = objects
                     .Select(obj => New(obj, data, timestamp))
                     .OfType<Event<T,D>>()
-                    .Where(e => e.Score > 0)
+                    .Where(e => e.ValidateScore(scoreThreshold))
                     .OrderByDescending(e => e.Score)
                     .ToArray();
 
-            return results.Length > 0 ? results[0]: null;
+            return results.Length > 0 ? results[0] : null;
         }
 
         public static Event<T,D>? New<T,D>(T obj, D data, float timestamp) where T: IEventObject<D>
