@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -19,11 +20,11 @@ namespace MartonioJunior.EdKit
         /**
         <summary>Internal collection for managing key serialization.</summary>
         */
-        [SerializeField] List<K> keys = new();
+        // [SerializeField] List<K> keys = new();
         /**
         <summary>Internal collection for managing value serialization.</summary>
         */
-        [SerializeField] List<V> values = new();
+        // [SerializeField] List<V> values = new();
 
         // MARK: Initializers
         public SerializedDictionary() {}
@@ -55,8 +56,8 @@ namespace MartonioJunior.EdKit
         public void Clear()
         {
             dictionary.Clear();
-            keys.Clear();
-            values.Clear();
+            // keys.Clear();
+            // values.Clear();
         }
 
         public bool Contains(KeyValuePair<K, V> item) => dictionary.ContainsKey(item.Key);
@@ -76,28 +77,18 @@ namespace MartonioJunior.EdKit
     }
     #endregion
 
-    #region ISerializationCallbackReceiver Implementation
-    public partial class SerializedDictionary<K,V>: ISerializationCallbackReceiver
+    #region ISerializable Implementation
+    public partial class SerializedDictionary<K,V>: ISerializable
     {
-        public void OnAfterDeserialize()
+        public SerializedDictionary(SerializationInfo info, StreamingContext context)
         {
-            dictionary.Clear();
-
-            if (keys.Count != values.Count) throw new System.Exception("Serialized Array Mismatch");
-
-            for (int index = 0; index < keys.Count; index++) {
-                dictionary.Add(keys[index], values[index]);
-            }
+            throw new NotImplementedException();
         }
 
-        public void OnBeforeSerialize()
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            keys.Clear();
-            values.Clear();
-
             foreach (var pair in dictionary) {
-                keys.Add(pair.Key);
-                values.Add(pair.Value);
+                info.AddValue(pair.Key.ToString(), pair.Value);
             }
         }
     }
