@@ -63,7 +63,7 @@ namespace MartonioJunior.EdKit
                 Directory.CreateDirectory(LogsFullPath);
             }
 
-            using var fileWriter = new StreamWriter(path, true);
+            using var fileWriter = new StreamWriter(path, false);
             await fileWriter.WriteAsync(contents);
 
             Debug.Log($"Saved Log to Path: {path}");
