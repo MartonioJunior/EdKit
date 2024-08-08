@@ -5,12 +5,14 @@ using UnityEngine;
 namespace MartonioJunior.EdKit
 {
     #region Alias Classes
+    [Serializable]
     public sealed class GestureEvaluator: EventEvaluator<IGesture, List<Event<IPose, Placement>>>
     {
         public GestureEvaluator() {}
         public GestureEvaluator(IEnumerable<IGesture> gestures, float scoreThreshold = 0.8f): base(gestures, scoreThreshold) {}
     }
 
+    [Serializable]
     public sealed class PoseEvaluator: EventEvaluator<IPose, Placement>
     {
         public PoseEvaluator() {}
@@ -23,7 +25,7 @@ namespace MartonioJunior.EdKit
     {
         // MARK: Variables
         [SerializeField, Range(0,1)] float scoreThreshold = 0.8f;
-        [SerializeReference] ISet<T> allPossibleElements = new HashSet<T>();
+        ISet<T> allPossibleElements = new HashSet<T>();
 
         // MARK: Initializers
         public EventEvaluator() {}
