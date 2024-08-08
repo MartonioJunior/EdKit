@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
+    [System.Serializable]
     public partial struct AffordanceEffect
     {
         // MARK: Variables
