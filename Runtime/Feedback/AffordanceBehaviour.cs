@@ -6,7 +6,8 @@ namespace MartonioJunior.EdKit
     public partial class AffordanceBehaviour
     {
         // MARK: Variables
-        [SerializeField] AffordanceEffect currentEffect;
+        AffordanceEffect currentEffect;
+        [SerializeField] AffordanceEffect defaultEffect;
         [SerializeField] float timer;
 
         // MARK: Events
@@ -17,6 +18,11 @@ namespace MartonioJunior.EdKit
         [SerializeField] UnityEvent<AffordanceEffect> onEffect;
 
         // MARK: Methods
+        public void Apply(AffordanceData affordance)
+        {
+            Apply(affordance, defaultEffect);
+        }
+
         public void Apply(AffordanceData affordance, AffordanceEffect effect)
         {
             onAudio?.Invoke(affordance.AudioFeedback);
@@ -27,6 +33,16 @@ namespace MartonioJunior.EdKit
             timer = effect.Duration;
         }
 
+        public void SetDefaultEffect(AffordanceEffect effect)
+        {
+            defaultEffect = effect;
+        }
+
+        public void Stop()
+        {
+            timer = 0;
+        }
+
         public void Tick(float deltaTime)
         {
             if (timer <= 0) return;
@@ -34,11 +50,6 @@ namespace MartonioJunior.EdKit
             deltaTime = Mathf.Min(deltaTime, timer);
             onEffect?.Invoke(currentEffect.WithDuration(deltaTime));
             timer -= deltaTime;
-        }
-
-        public void Stop()
-        {
-            timer = 0;
         }
     }
 
