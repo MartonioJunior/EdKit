@@ -10,6 +10,22 @@ namespace MartonioJunior.EdKit
         [SerializeField] AudioClip clip;
         [SerializeField] Material material;
         [SerializeField] UnityEvent<AffordanceEffect> customAction;
+
+        // MARK: Properties
+        public string Description {
+            get => description;
+            set => description = value;
+        }
+
+        public AudioClip Clip {
+            get => clip;
+            set => clip = value;
+        }
+
+        public Material Material {
+            get => material;
+            set => material = value;
+        }
     }
 
     #region ScriptableObject Implementation
