@@ -37,7 +37,8 @@ namespace MartonioJunior.EdKit
             return new(obj, data, timestamp);
         }
 
-        public bool Validate(T obj, float threshold = 0.8f) => obj.Equals(this.obj) && ValidateScore(threshold);
+        public bool Validate(T obj, float threshold = 0.8f) => ValidateObject(obj) && ValidateScore(threshold);
+        public bool ValidateObject(T obj) => obj.Equals(this.obj);
         public bool ValidateScore(float threshold = 0.8f) => Score >= Mathf.Max(threshold, 0);
     }
 
