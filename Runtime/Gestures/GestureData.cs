@@ -14,10 +14,7 @@ namespace MartonioJunior.EdKit
 
     #region ScriptableObject Implementation
     [CreateAssetMenu(fileName = "GestureData", menuName = "EdKit/Gesture", order = 0)]
-    public partial class GestureData: ScriptableObject
-    {
-
-    }
+    public partial class GestureData: ScriptableObject {}
     #endregion
 
     #region IGesture Implementation
