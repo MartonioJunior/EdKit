@@ -21,7 +21,8 @@ namespace MartonioJunior.EdKit
 
         // MARK: Properties
         public List<PoseEvent> Buffer => buffer;
-        public GestureEvaluator Evaluator => gestureEvaluator;
+        public GestureEvaluator GestureEvaluator => gestureEvaluator;
+        public PoseEvaluator PoseEvaluator => poseEvaluator;
         
         // MARK: Events
         [SerializeField] UnityEvent<GestureEvent> onGestureRecognized = new();
@@ -36,7 +37,7 @@ namespace MartonioJunior.EdKit
             buffer.Clear();
         }
 
-        public float ResolveTime(float? time) => time ?? Time.time;
+        private float ResolveTime(float? time) => time ?? Time.time;
 
         public void Register(Placement placement, float? time = null)
         {
@@ -52,8 +53,8 @@ namespace MartonioJunior.EdKit
 
         public void SetupEvaluators()
         {
-            gestureEvaluator = new GestureEvaluator(gestures);
-            poseEvaluator = new PoseEvaluator(gestures.Reduce(new List<IPose>(), InsertPoses));
+            gestures.ForEach(gestureEvaluator.Register);
+            gestures.Reduce(new List<IPose>(), InsertPoses).ForEach(poseEvaluator.Register);
 
             List<IPose> InsertPoses(List<IPose> poseList, GestureData gesture)
             {
