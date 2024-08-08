@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -25,7 +26,14 @@ namespace MartonioJunior.EdKit
         [SerializeField] List<Entity> entities;
 
         // MARK: Properties
-        public string Tag {
+        public DateTime Date => date;
+        public UID UserID => userID;
+        public UID SceneID => sceneID;
+        public IReadOnlyList<Activity> Activities => activities;
+        public IReadOnlyList<Agent> Agents => agents;
+        public IReadOnlyList<Entity> Entities => entities;
+
+        private string Tag {
             get {
                 return $"{date:yyyy-MM-dd_HH-mm-ss}_{userID}_{sceneID}";
             }
@@ -49,7 +57,7 @@ namespace MartonioJunior.EdKit
             string FileName = fileName ?? Tag+"_Log";
 
             string path = LogsFullPath+$"/{FileName}."+fileExtension;
-            string contents = JsonUtility.ToJson(this);
+            string contents = JsonConvert.SerializeObject(this);
 
             if (!Directory.Exists(LogsFullPath)) {
                 Directory.CreateDirectory(LogsFullPath);
