@@ -19,12 +19,6 @@ namespace MartonioJunior.EdKit
             this.name = name;
             this.scoreFunction = scoreFunction;
         }
-
-        // MARK: Static Methods
-        public static IPose Evaluate(Placement placement, IList<IPose> poses)
-        {
-            return poses.Max(p => p.Evaluate(placement));
-        }
     }
 
     #region ToString
@@ -45,6 +39,16 @@ namespace MartonioJunior.EdKit
         public float Evaluate(Placement placement)
         {
             return scoreFunction(placement);
+        }
+    }
+    #endregion
+
+    #region IEnumerable Extensions
+    public static partial class IEnumerableExtensions
+    {
+        public static IPose Evaluate(this IEnumerable<IPose> self, Placement placement)
+        {
+            return self.Max(p => p.Evaluate(placement));
         }
     }
     #endregion

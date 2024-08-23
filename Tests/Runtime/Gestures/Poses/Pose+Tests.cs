@@ -50,7 +50,7 @@ namespace Tests.MartonioJunior.EdKit
         [TestCaseSource(nameof(Evaluate_PoseList_UseCases))]
         public void Evaluate_PoseList_ReturnsHighestScoringPoseFromList(Placement placement, IPose[] poses, IPose expectedPose)
         {
-            var pose = Pose.Evaluate(placement, poses);
+            var pose = poses.Evaluate(placement);
 
             Assert.AreEqual(expectedPose, pose);
         }
