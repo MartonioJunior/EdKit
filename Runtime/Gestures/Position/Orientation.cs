@@ -32,9 +32,13 @@ namespace MartonioJunior.EdKit
             return new Axis(delta, Vector3.one);
         }
 
-        public Axis CompareRotationTo(Orientation other, Bounds bounds)
+        <summary>Compares the rotation with another <c>Orientation</c> within a defined <c>Bounds</c> range.</summary>
+        public Axis CompareRotationTo(Orientation? other = null, Bounds? bounds = null)
         {
-            var delta = other.NormalizedRotationIn(bounds) - NormalizedRotationIn(bounds);
+            var boundsOrDefault = bounds ?? new Bounds(Vector3.zero, Vector3.one);
+            var otherOrDefault = other ?? identity;
+
+            var delta = otherOrDefault.NormalizedRotationIn(boundsOrDefault) - NormalizedRotationIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
         }
 
