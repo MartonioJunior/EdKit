@@ -6,7 +6,6 @@ namespace MartonioJunior.EdKit
     public partial class TrackerBehaviour
     {
         // MARK: Variables
-        [SerializeField] Vector3 offsetCenter = Vector3.zero;
         [Header("References")]
         [SerializeField] Transform leftHandTransform;
         [SerializeField] Transform rightHandTransform;
