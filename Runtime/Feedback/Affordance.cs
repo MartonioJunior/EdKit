@@ -11,12 +11,31 @@ namespace MartonioJunior.EdKit
     public partial struct Affordance<Text,Audio,Visual>
     {
         // MARK: Variables
+        /**
+        <summary>Action to be executed when an effect is applied.</summary>
+        */
         Action<AffordanceEffect> onAffordance;
+        /**
+        <summary>Function to retrieve an audio feedback to be applied.</summary>
+        */
         Func<Audio> audioFunction;
+        /**
+        <summary>Function to retrieve a visual feedback to be applied.</summary>
+        */
         Func<Visual> visualFunction;
+        /**
+        <summary>Function to retrieve a textual feedback to be applied.</summary>
+        */
         Func<Text> textFunction;
 
         // MARK: Initalizers
+        /**
+        <summary>Initializes a new affordance.</summary>
+        <param name="updateAction">Action to be executed when an effect is applied.</param>
+        <param name="audioFunction">Function to retrieve an audio feedback to be applied.</param>
+        <param name="visualFunction">Function to retrieve a visual feedback to be applied.</param>
+        <param name="textFunction">Function to retrieve a textual feedback to be applied.</param>
+        */
         public Affordance(Action<AffordanceEffect> updateAction, Func<Audio> audioFunction, Func<Visual> visualFunction, Func<Text> textFunction)
         {
             this.onAffordance = updateAction;
