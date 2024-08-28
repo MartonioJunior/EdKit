@@ -3,12 +3,22 @@ using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
+    /**
+    <summary>Gesture that is defined by an ordered sequence of poses.</summary>
+    <remarks>All poses contribute equally to the final score.</remarks>
+    */
     public partial class GestureData
     {
         // MARK: Variables
+        /**
+        <summary>Sequence of poses to be analyzed.</summary>
+        */
         [SerializeField] PoseData[] poses;
 
         // MARK: Properties
+        /**
+        <inheritdoc cref="poses"/>
+        */
         public PoseData[] Poses => poses;
     }
 
@@ -20,8 +30,15 @@ namespace MartonioJunior.EdKit
     #region IGesture Implementation
     public partial class GestureData: IGesture
     {
+        /**
+        <inheritdoc cref="IGesture.Name"/>
+        */
         public string Name => name;
-
+        /**
+        <remarks>The evaluation tries to match the list of pose events with the sequence of poses in reverse order,
+        accumulating the score against the number of poses analyzed.</remarks>
+        <inheritdoc cref="IGesture.Evaluate(IList{Event{IPose, Placement}})"/>
+        */
         public float Evaluate(IList<Event<IPose, Placement>> events)
         {
             float numberOfPoses = poses.Length + 1;
