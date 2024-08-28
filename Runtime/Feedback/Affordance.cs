@@ -1,8 +1,13 @@
 using System;
-using UnityEngine;
 
 namespace MartonioJunior.EdKit
 {
+    /**
+    <summary>Structure that defines an affordance.</summary>
+    <typeparam name="Audio">Type of audio feedback.</typeparam>
+    <typeparam name="Visual">Type of visual feedback.</typeparam>
+    <typeparam name="Text">Type of textual feedback.</typeparam>
+    */
     public partial struct Affordance<Text,Audio,Visual>
     {
         // MARK: Variables
@@ -24,10 +29,21 @@ namespace MartonioJunior.EdKit
     #region IAffordance Implementation
     public partial struct Affordance<Text,Audio,Visual>: IAffordance<Text,Audio,Visual>
     {
+        /**
+        <inheritdoc cref="IAffordance{Text,Audio,Visual}.TextFeedback"/>
+        */
         public Text TextFeedback => textFunction.Invoke();
+        /**
+        <inheritdoc cref="IAffordance{Text,Audio,Visual}.VisualFeedback"/>
+        */
         public Visual VisualFeedback => visualFunction.Invoke();
+        /**
+        <inheritdoc cref="IAffordance{Text,Audio,Visual}.AudioFeedback"/>
+        */
         public Audio AudioFeedback => audioFunction.Invoke();
-
+        /**
+        <inheritdoc cref="IAffordance{Text,Audio,Visual}.UpdateAffordance"/>
+        */
         public void UpdateAffordance(AffordanceEffect effect) => onAffordance?.Invoke(effect);
     }
     #endregion
