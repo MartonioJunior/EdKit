@@ -54,23 +54,6 @@ namespace Tests.MartonioJunior.EdKit
         {
             Assert.AreEqual(placement.ToString(), output);
         }
-
-        public static IEnumerable From_UseCases()
-        {
-            yield return null;
-        }
-        [TestCaseSource(nameof(From_UseCases))]
-        public void From_CreatesNewPlacementBasedOnTransforms(GameObject origin, GameObject leftHand, GameObject rightHand, GameObject head, Placement expected)
-        {
-            var actual = Placement.From(origin.transform, leftHand.transform, rightHand.transform, head.transform);
-
-            Assert.AreEqual(expected, actual);
-
-            Object.Destroy(origin);
-            Object.Destroy(leftHand);
-            Object.Destroy(rightHand);
-            Object.Destroy(head);
-        }
     }
     #endregion
 }

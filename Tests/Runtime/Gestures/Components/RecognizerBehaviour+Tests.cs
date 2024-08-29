@@ -38,25 +38,25 @@ namespace Tests.MartonioJunior.EdKit
             yield return null;
         }
         [TestCaseSource(nameof(Register_Placement_UseCases))]
-        public void Register_Placement_AddsPlacementToBuffer(Placement placement, PoseEvent poseEvent)
+        public void Register_Placement_AddsPlacementToBuffer(Placement placement, Event<IPose, Placement> poseEvent)
         {
             recognizerBehaviour.Register(placement);
 
-            if (poseEvent is PoseEvent pe) CollectionAssert.Contains(recognizerBehaviour.Buffer, pe);
+            if (poseEvent is Event<IPose, Placement> pe) CollectionAssert.Contains(recognizerBehaviour.Buffer, pe);
         }
 
         public static IEnumerable Register_PlacementTimePoses_UseCases()
         {
             yield return new TestCaseData(new Placement(), 0.0f, new List<IPose>(), null);
-            yield return new TestCaseData(new Placement(), 0.0f, new List<IPose> { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.2f) }, PoseEvent.New(new Placement(), new Pose("Pose 1", p => 1.0f), 0.0f));
+            yield return new TestCaseData(new Placement(), 0.0f, new List<IPose> { new Pose("Pose 1", p => 1.0f), new Pose("Pose 2", p => 0.2f) }, Event<IPose, Placement>.New(new Pose("Pose 1", p => 1.0f), new Placement(), 0.0f));
         }
         [TestCaseSource(nameof(Register_PlacementTimePoses_UseCases))]
-        public void Register_PlacementTimePoses_CreatesPoseEventAndAddsToBuffer(Placement placement, float time, IList<IPose> poses, PoseEvent? poseEvent)
+        public void Register_PlacementTimePoses_CreatesPoseEventAndAddsToBuffer(Placement placement, float time, IList<IPose> poses, Event<IPose, Placement>? poseEvent)
         {
             Assert.Fail("Test is currently incomplete");
             recognizerBehaviour.Register(placement, time);
 
-            if (poseEvent is PoseEvent pe) CollectionAssert.Contains(recognizerBehaviour.Buffer, pe);
+            if (poseEvent is Event<IPose, Placement> pe) CollectionAssert.Contains(recognizerBehaviour.Buffer, pe);
         }
 
         public static IEnumerable Sample_NoParameters_UseCases()
