@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -130,6 +131,25 @@ namespace MartonioJunior.EdKit
             return new Placement(Place(leftHand), Place(rightHand), Place(head));
         }
     }
+
+    #region ISerializable Reference
+    public partial struct Orientation: ISerializable
+    {
+        public Orientation(SerializationInfo info, StreamingContext context)
+        {
+            relativePosition = (Vector3)info.GetValue("relativePosition", typeof(Vector3));
+            relativeRotation = (Quaternion)info.GetValue("relativeRotation", typeof(Quaternion));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            object position = new {x = relativePosition.x, y = relativePosition.y, z = relativePosition.z};
+            object rotation = new {x = relativeRotation.x, y = relativeRotation.y, z = relativeRotation.z, w = relativeRotation.w};
+            info.AddValue("relativePosition", position);
+            info.AddValue("relativeRotation", rotation);
+        }
+    }
+    #endregion
 
     #region ToString
     public partial struct Orientation
