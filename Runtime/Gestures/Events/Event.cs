@@ -160,8 +160,10 @@ namespace MartonioJunior.EdKit
             get {
                 var dictionary = new Dictionary<string, object> {
                     { "timestamp", Timestamp },
-                    { "score", Score }
+                    { "score", Score },
+                    { "eventData", data }
                 };
+
                 obj.Apply(dictionary, data);
                 return dictionary;
             }
