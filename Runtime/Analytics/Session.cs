@@ -121,7 +121,10 @@ namespace MartonioJunior.EdKit
             string FileName = fileName ?? Tag+"_Log";
 
             string path = LogsFullPath+$"/{FileName}."+fileExtension;
-            string contents = JsonConvert.SerializeObject(this);
+            var settings = new JsonSerializerSettings() {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            string contents = JsonConvert.SerializeObject(this, settings);
 
             if (!Directory.Exists(LogsFullPath)) {
                 Directory.CreateDirectory(LogsFullPath);
