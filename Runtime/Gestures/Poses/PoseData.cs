@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -13,29 +12,29 @@ namespace MartonioJunior.EdKit
         <summary><c>Bounds</c> range for the left hand's position</summary>
         */
         [Header("Left Hand")]
-        [SerializeField] Bounds positionBoundsLeftHand;
+        [SerializeField] Bounds positionBoundsLeftHand = new(Vector3.zero, Vector3.one);
         /**
         <summary><c>Bounds</c> range for the left hand's rotation</summary>
         */
-        [SerializeField] Bounds rotationBoundsLeftHand;
+        [SerializeField] Bounds rotationBoundsLeftHand = new(Vector3.zero, new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity));
         /**
         <summary><c>Bounds</c> range for the right hand's position</summary>
         */
         [Header("Right Hand")]
-        [SerializeField] Bounds positionBoundsRightHand;
+        [SerializeField] Bounds positionBoundsRightHand = new(Vector3.zero, Vector3.one);
         /**
         <summary><c>Bounds</c> range for the right hand's rotation</summary>
         */
-        [SerializeField] Bounds rotationBoundsRightHand;
+        [SerializeField] Bounds rotationBoundsRightHand = new(Vector3.zero, new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity));
         /**
         <summary><c>Bounds</c> range for the head's position</summary>
         */
         [Header("Head")]
-        [SerializeField] Bounds positionBoundsHead;
+        [SerializeField] Bounds positionBoundsHead = new(new Vector3(0,1,0), Vector3.one);
         /**
         <summary><c>Bounds</c> range for the head's rotation</summary>
         */
-        [SerializeField] Bounds rotationBoundsHead;
+        [SerializeField] Bounds rotationBoundsHead = new(Vector3.zero, new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity));
 
         // MARK: Properties
         /**
