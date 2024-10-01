@@ -95,4 +95,13 @@ namespace MartonioJunior.EdKit
         */
         public void Unregister(T element) => allPossibleElements.Remove(element);
     }
+
+    #region UnityEditor Support
+    #if UNITY_EDITOR
+    public partial class EventEvaluator<T,D>
+    {
+        public ISet<T> AllPossibleElements => allPossibleElements;
+    }
+    #endif
+    #endregion
 }

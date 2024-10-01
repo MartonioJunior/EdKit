@@ -221,4 +221,19 @@ namespace MartonioJunior.EdKit
         }
     }
     #endregion
+
+    #region UnityEditor Support
+    #if UNITY_EDITOR
+    public partial struct Event<T,D>
+    {
+        public Event(T obj, D data, float timestamp, float score)
+        {
+            this.obj = obj;
+            this.data = data;
+            this.timestamp = timestamp;
+            this.score = score;
+        }
+    }
+    #endif
+    #endregion
 }
