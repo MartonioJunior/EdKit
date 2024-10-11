@@ -5,6 +5,7 @@ namespace MartonioJunior.EdKit
     /**
     <summary>Pose that has it's accuracy scored based on bounding boxes.</summary>
     */
+    [System.Obsolete("PoseData is currently deprecated. Please use Pose or a type inheriting from IPose instead.")]
     public partial class PoseData
     {
         // MARK: Variables
@@ -79,7 +80,7 @@ namespace MartonioJunior.EdKit
     }
 
     #region ScriptableObject Implementation
-    [CreateAssetMenu(fileName="New Pose", menuName="EdKit/Pose")]
+    // [CreateAssetMenu(fileName="New Pose", menuName="EdKit/Pose")]
     public partial class PoseData: ScriptableObject {}
     #endregion
 

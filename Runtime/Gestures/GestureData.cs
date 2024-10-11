@@ -7,6 +7,7 @@ namespace MartonioJunior.EdKit
     <summary>Gesture that is defined by an ordered sequence of poses.</summary>
     <remarks>All poses contribute equally to the final score.</remarks>
     */
+    [System.Obsolete("GestureData is currently deprecated. Please use Gesture or a type inheriting from IGesture instead.")]
     public partial class GestureData
     {
         // MARK: Variables
@@ -23,7 +24,7 @@ namespace MartonioJunior.EdKit
     }
 
     #region ScriptableObject Implementation
-    [CreateAssetMenu(fileName = "GestureData", menuName = "EdKit/Gesture", order = 0)]
+    // [CreateAssetMenu(fileName = "GestureData", menuName = "EdKit/Gesture", order = 0)]
     public partial class GestureData: ScriptableObject {}
     #endregion
 
