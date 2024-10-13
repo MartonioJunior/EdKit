@@ -165,6 +165,24 @@ namespace MartonioJunior.EdKit
     }
     #endregion
 
+    #region Scoring
+    public partial struct Orientation
+    {
+        public float ScoreByBounds(Bounds positionBounds, Bounds rotationBounds)
+        {
+            var p = NormalizedPositionIn(positionBounds).magnitude;
+            var r = NormalizedRotationIn(rotationBounds).magnitude;
+
+            return 2-p-r;
+        }
+
+        public static Func<Orientation, float> ScoringByBounds(Bounds positionBounds, Bounds rotationBounds)
+        {
+            return orientation => orientation.ScoreByBounds(positionBounds, rotationBounds);
+        }
+    }
+    #endregion
+
     #region ToString
     public partial struct Orientation
     {
