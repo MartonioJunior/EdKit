@@ -65,6 +65,13 @@ namespace MartonioJunior.EdKit
             var delta = otherOrDefault.NormalizedPositionIn(boundsOrDefault) - NormalizedPositionIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
         }
+
+        public Axis ComparePosition(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
+        {
+            var offsetVector = offset ?? Vector3.zero;
+            var scaleVector = scale ?? Vector3.one;
+            return ComparePosition(other, new Bounds(offsetVector, scaleVector));
+        }
         /**
         <summary>Compares the rotation with another <c>Orientation</c> within a defined <c>Bounds</c> range.</summary>
         <param name="other">The spatial reference to be compared against.</param>
@@ -81,6 +88,13 @@ namespace MartonioJunior.EdKit
 
             var delta = otherOrDefault.NormalizedRotationIn(boundsOrDefault) - NormalizedRotationIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
+        }
+
+        public Axis CompareRotationTo(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
+        {
+            var offsetVector = offset ?? Vector3.zero;
+            var scaleVector = scale ?? Vector3.one;
+            return CompareRotationTo(other, new Bounds(offsetVector, scaleVector));
         }
         /**
         <summary>Normalizes the orientation's position in relation to a <c>Bounds</c> value range.</summary>
