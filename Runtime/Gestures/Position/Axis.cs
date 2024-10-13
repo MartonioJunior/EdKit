@@ -121,7 +121,11 @@ namespace MartonioJunior.EdKit
             /**
             <summary>Element is to the right of spatial reference.</summary>
             */
-            Right = 4
+            Right = 4,
+            /**
+            <summary>Element has any spatial relationship in the X axis.</summary>
+            */
+            AnyX = Left | Center | Right
         }
     }
     #endregion
@@ -150,7 +154,11 @@ namespace MartonioJunior.EdKit
             /**
             <summary>Element is above the spatial reference.</summary>
             */
-            Above = 4
+            Above = 4,
+            /**
+            <summary>Element has any spatial relationship in the Y axis.</summary>
+            */
+            AnyY = Below | Neutral | Above
         }
     }
     #endregion
@@ -179,7 +187,11 @@ namespace MartonioJunior.EdKit
             /**
             <summary>Element is in front of spatial reference.</summary>
             */
-            Front = 4
+            Front = 4,
+            /**
+            <summary>Element has any spatial relationship in the Z axis.</summary>
+            */
+            AnyZ = Back | Body | Front
         }
     }
     #endregion
