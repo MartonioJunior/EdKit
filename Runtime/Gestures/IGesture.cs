@@ -5,6 +5,7 @@ namespace MartonioJunior.EdKit
 {
     #region Aliases
     using PoseEvent = Event<IPose, Placement>;
+    using GestureEvent = Event<IGesture, List<Event<IPose, Placement>>>;
     #endregion
 
     /**
@@ -25,6 +26,21 @@ namespace MartonioJunior.EdKit
         */
         float Evaluate(IList<PoseEvent> poses);
     }
+
+    #region Default Implementation
+    public static partial class IGestureExtensions
+    {
+        public static bool CompareByName(this IGesture self, IGesture other)
+        {
+            return self.Name == other.Name;
+        }
+
+        public static float ScoringByObjectName(this IGesture self, GestureEvent gestureEvent)
+        {
+            return gestureEvent.ScoreByObjectName(self);
+        }
+    }
+    #endregion
 
     #region IEventObject Implementation
     public partial interface IGesture: IEventObject<List<PoseEvent>>
@@ -51,6 +67,16 @@ namespace MartonioJunior.EdKit
         float IEventObject<List<PoseEvent>>.Score(List<PoseEvent> data)
         {
             return Evaluate(data);
+        }
+    }
+    #endregion
+
+    #region Event Extensions
+    public static partial class EventExtensions
+    {
+        public static float ScoreByObjectName(this GestureEvent self, IGesture other)
+        {
+            return self.Object.CompareByName(other) ? self.Score : 0;
         }
     }
     #endregion
