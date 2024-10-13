@@ -66,7 +66,7 @@ namespace MartonioJunior.EdKit
             return new Axis(delta, Vector3.one);
         }
 
-        public Axis ComparePosition(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
+        public Axis ComparePositionTo(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
         {
             var offsetVector = offset ?? Vector3.zero;
             var scaleVector = scale ?? Vector3.one;
@@ -81,7 +81,7 @@ namespace MartonioJunior.EdKit
         When no value is supplied to the <c>other</c> parameter, the comparison is made against the origin.<br/>
         When no value is supplied to the <c>bounds</c> parameter, the comparison is made against a unitary bounding box.
         */
-        public Axis CompareRotationTo(Orientation? other = null, Bounds? bounds = null)
+        public Axis CompareRotation(Orientation? other = null, Bounds? bounds = null)
         {
             var boundsOrDefault = bounds ?? new Bounds(Vector3.zero, Vector3.one);
             var otherOrDefault = other ?? identity;
@@ -94,7 +94,7 @@ namespace MartonioJunior.EdKit
         {
             var offsetVector = offset ?? Vector3.zero;
             var scaleVector = scale ?? Vector3.one;
-            return CompareRotationTo(other, new Bounds(offsetVector, scaleVector));
+            return CompareRotation(other, new Bounds(offsetVector, scaleVector));
         }
         /**
         <summary>Normalizes the orientation's position in relation to a <c>Bounds</c> value range.</summary>
