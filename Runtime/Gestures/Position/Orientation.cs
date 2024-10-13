@@ -144,6 +144,16 @@ namespace MartonioJunior.EdKit
         {
             return new Placement(Place(leftHand), Place(rightHand), Place(head));
         }
+
+        public Orientation To(Orientation orientation)
+        {
+            var relativePosition = this.relativePosition - orientation.relativePosition;
+            var relativeRotation = Quaternion.Inverse(orientation.relativeRotation) * this.relativeRotation;
+            return new Orientation(relativePosition, relativeRotation);
+        }
+
+        // MARK: Operations
+        public static Orientation operator -(Orientation a, Orientation b) => a.To(b);
     }
 
     #region ISerializable Reference
