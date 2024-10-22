@@ -8,6 +8,7 @@ namespace MartonioJunior.EdKit
     <typeparam name="Visual">Type of visual feedback.</typeparam>
     <typeparam name="Text">Type of textual feedback.</typeparam>
     */
+    [Obsolete("Create a new type from IAffordance instead.")]
     public partial struct Affordance<Text,Audio,Visual>
     {
         // MARK: Variables
