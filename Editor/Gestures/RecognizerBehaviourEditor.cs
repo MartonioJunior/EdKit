@@ -18,7 +18,10 @@ namespace MartonioJunior.EdKit.Editor
         {
             var buttonSystem = new VisualElement();
             elements.ForEach(element => {
-                var button = new Button(() => action(element)) {
+                var button = new Button(() => {
+                    action(element);
+                    Debug.Log("Performed "+element.ToString());
+                }) {
                     text = element.ToString()
                 };
                 buttonSystem.Add(button);
@@ -33,12 +36,13 @@ namespace MartonioJunior.EdKit.Editor
 
             var buttonSystem = CreateButtonSystem(poses, (pose) => {
                 target.FeedPoseEvent(new(pose, new(), Time.time, 1.0f));
-                Debug.Log("Invoked");
             });
 
             var root = new VisualElement();
-            root.Add(new Label("Pose Debug"));
-            root.Add(buttonSystem);
+            if (poses.Count > 0) {
+                root.Add(new Label("Pose Debug"));
+                root.Add(buttonSystem);
+            }
             return root;
         }
 
@@ -49,12 +53,13 @@ namespace MartonioJunior.EdKit.Editor
 
             var buttonSystem = CreateButtonSystem(gestures, (gesture) => {
                 target.FeedGestureEvent(new(gesture, new(), Time.time, 1.0f));
-                Debug.Log("Invoked");
             });
 
             var root = new VisualElement();
-            root.Add(new Label("Gesture Debug"));
-            root.Add(buttonSystem);
+            if (gestures.Count > 0) {
+                root.Add(new Label("Gesture Debug"));
+                root.Add(buttonSystem);
+            }
             return root;
         }
     }
