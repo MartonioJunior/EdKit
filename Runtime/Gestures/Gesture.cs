@@ -95,6 +95,16 @@ namespace MartonioJunior.EdKit
     }
     #endregion
 
+    #region ToString
+    public partial struct Gesture
+    {
+        public override string ToString()
+        {
+            return "Gesture: " + name;
+        }
+    }
+    #endregion
+
     #region IGesture Implementation
     public partial struct Gesture: IGesture
     {
