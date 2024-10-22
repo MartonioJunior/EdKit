@@ -48,18 +48,7 @@ namespace MartonioJunior.EdKit
         public Gesture(string name, IList<Func<PoseEvent, float>> scoreFunctions)
         {
             this.name = name;
-            scoreFunction = (events) => {
-                int numberOfChecks = scoreFunctions.Count;
-                float score = 0;
-
-                if (numberOfChecks == 0) return 0;
-
-                for (int i = 0; i < numberOfChecks; i++) {
-                    score += scoreFunctions[^i](events[^i]);
-                }
-
-                return score / numberOfChecks;
-            };
+            scoreFunction = scoreFunctions.Score;
         }
 
         // MARK: Methods
@@ -71,18 +60,7 @@ namespace MartonioJunior.EdKit
         */
         public static Gesture FromSequence(string name, params Func<PoseEvent, float>[] evaluations)
         {
-            return new Gesture(name, (events) => {
-                int numberOfChecks = evaluations.Length;
-                float score = 0;
-
-                if (numberOfChecks == 0) return 0;
-
-                for (int i = 0; i < numberOfChecks; i++) {
-                    score += evaluations[^i](events[^i]);
-                }
-
-                return score / numberOfChecks;
-            });
+            return new(name, evaluations.Score);
         }
 
         public static Gesture FromPoses(string name, params IPose[] poses)
@@ -95,6 +73,27 @@ namespace MartonioJunior.EdKit
             return new Gesture(name, poseFunctions);
         }
     }
+
+    #region Formula
+    public static partial class IListExtensions
+    {
+        public static float Score(this IList<Func<PoseEvent, float>> evaluations, IList<PoseEvent> events)
+        {
+            int numberOfChecks = evaluations.Count;
+            float score = 0;
+
+            if (numberOfChecks == 0) return 0;
+
+            for (int i = 1; i <= numberOfChecks; i++) {
+                if (i >= events.Count) break;
+
+                score += evaluations[^i](events[^i]);
+            }
+
+            return score / numberOfChecks;
+        }
+    }
+    #endregion
 
     #region IGesture Implementation
     public partial struct Gesture: IGesture
