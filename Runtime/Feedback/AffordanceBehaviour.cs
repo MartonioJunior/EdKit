@@ -6,6 +6,7 @@ namespace MartonioJunior.EdKit
     /**
     <summary>Component used to execute <c>AffordanceData</c> elements.</summary>
     */
+    [System.Obsolete("Use AffordanceReceiver instead.")]
     public partial class AffordanceBehaviour
     {
         // MARK: Variables
@@ -93,7 +94,7 @@ namespace MartonioJunior.EdKit
     }
 
     #region MonoBehaviour Implementation
-    [AddComponentMenu("EdKit/Affordance Receiver")]
+    [AddComponentMenu("EdKit/AffordanceBehaviour")]
     public partial class AffordanceBehaviour: MonoBehaviour
     {
         void Update()
