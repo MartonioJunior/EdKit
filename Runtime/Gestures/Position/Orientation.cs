@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -64,6 +65,13 @@ namespace MartonioJunior.EdKit
             var delta = otherOrDefault.NormalizedPositionIn(boundsOrDefault) - NormalizedPositionIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
         }
+
+        public Axis ComparePositionTo(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
+        {
+            var offsetVector = offset ?? Vector3.zero;
+            var scaleVector = scale ?? Vector3.one;
+            return ComparePosition(other, new Bounds(offsetVector, scaleVector));
+        }
         /**
         <summary>Compares the rotation with another <c>Orientation</c> within a defined <c>Bounds</c> range.</summary>
         <param name="other">The spatial reference to be compared against.</param>
@@ -73,13 +81,20 @@ namespace MartonioJunior.EdKit
         When no value is supplied to the <c>other</c> parameter, the comparison is made against the origin.<br/>
         When no value is supplied to the <c>bounds</c> parameter, the comparison is made against a unitary bounding box.
         */
-        public Axis CompareRotationTo(Orientation? other = null, Bounds? bounds = null)
+        public Axis CompareRotation(Orientation? other = null, Bounds? bounds = null)
         {
             var boundsOrDefault = bounds ?? new Bounds(Vector3.zero, Vector3.one);
             var otherOrDefault = other ?? identity;
 
             var delta = otherOrDefault.NormalizedRotationIn(boundsOrDefault) - NormalizedRotationIn(boundsOrDefault);
             return new Axis(delta, Vector3.one);
+        }
+
+        public Axis CompareRotationTo(Orientation? other = null, Vector3? offset = null, Vector3? scale = null)
+        {
+            var offsetVector = offset ?? Vector3.zero;
+            var scaleVector = scale ?? Vector3.one;
+            return CompareRotation(other, new Bounds(offsetVector, scaleVector));
         }
         /**
         <summary>Normalizes the orientation's position in relation to a <c>Bounds</c> value range.</summary>
@@ -129,7 +144,54 @@ namespace MartonioJunior.EdKit
         {
             return new Placement(Place(leftHand), Place(rightHand), Place(head));
         }
+
+        public Orientation To(Orientation orientation)
+        {
+            var relativePosition = this.relativePosition - orientation.relativePosition;
+            var relativeRotation = Quaternion.Inverse(orientation.relativeRotation) * this.relativeRotation;
+            return new Orientation(relativePosition, relativeRotation);
+        }
+
+        // MARK: Operations
+        public static Orientation operator -(Orientation a, Orientation b) => a.To(b);
     }
+
+    #region ISerializable Reference
+    public partial struct Orientation: ISerializable
+    {
+        public Orientation(SerializationInfo info, StreamingContext context)
+        {
+            relativePosition = (Vector3)info.GetValue("relativePosition", typeof(Vector3));
+            relativeRotation = (Quaternion)info.GetValue("relativeRotation", typeof(Quaternion));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            object position = new {x = relativePosition.x, y = relativePosition.y, z = relativePosition.z};
+            object rotation = new {x = relativeRotation.x, y = relativeRotation.y, z = relativeRotation.z, w = relativeRotation.w};
+            info.AddValue("relativePosition", position);
+            info.AddValue("relativeRotation", rotation);
+        }
+    }
+    #endregion
+
+    #region Scoring
+    public partial struct Orientation
+    {
+        public float ScoreByBounds(Bounds positionBounds, Bounds rotationBounds)
+        {
+            var p = NormalizedPositionIn(positionBounds).magnitude;
+            var r = NormalizedRotationIn(rotationBounds).magnitude;
+
+            return 2-p-r;
+        }
+
+        public static Func<Orientation, float> ScoringByBounds(Bounds positionBounds, Bounds rotationBounds)
+        {
+            return orientation => orientation.ScoreByBounds(positionBounds, rotationBounds);
+        }
+    }
+    #endregion
 
     #region ToString
     public partial struct Orientation

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MartonioJunior.EdKit
 {
+    #region Aliases
+    using PoseEvent = Event<IPose, Placement>;
+    #endregion
     /**
     <summary>Structure to implement a gesture via a scoring function.</summary>
     */
@@ -16,7 +19,7 @@ namespace MartonioJunior.EdKit
         /**
         <summary>Function used for scoring the gesture.</summary>
         */
-        Func<IList<Event<IPose, Placement>>, float> scoreFunction;
+        Func<IList<PoseEvent>, float> scoreFunction;
 
         // MARK: Delegates
         /**
@@ -24,7 +27,7 @@ namespace MartonioJunior.EdKit
         <param name="poseEvent">The <c>Event</c> instance to be scored.</param>
         <returns>The score of the gesture.</returns>
         */
-        public delegate float ScoreFunction(Event<IPose, Placement> poseEvent);
+        public delegate float ScoreFunction(PoseEvent poseEvent);
 
         // MARK: Initializers
         /**
@@ -32,7 +35,7 @@ namespace MartonioJunior.EdKit
         <param name="name">The name of the gesture.</param>
         <param name="scoreFunction">The function used to score the gesture.</param>
         */
-        public Gesture(string name, Func<IList<Event<IPose, Placement>>, float> scoreFunction)
+        public Gesture(string name, Func<IList<PoseEvent>, float> scoreFunction)
         {
             this.name = name;
             this.scoreFunction = scoreFunction;
@@ -42,21 +45,10 @@ namespace MartonioJunior.EdKit
         <param name="name">The name of the gesture.</param>
         <param name="scoreFunctions">The functions used to score each pose event, in reverse order.</param>
         */
-        public Gesture(string name, IList<Func<Event<IPose, Placement>, float>> scoreFunctions)
+        public Gesture(string name, IList<Func<PoseEvent, float>> scoreFunctions)
         {
             this.name = name;
-            scoreFunction = (events) => {
-                int numberOfChecks = scoreFunctions.Count;
-                float score = 0;
-
-                if (numberOfChecks == 0) return 0;
-
-                for (int i = 0; i < numberOfChecks; i++) {
-                    score += scoreFunctions[^i](events[^i]);
-                }
-
-                return score / numberOfChecks;
-            };
+            scoreFunction = scoreFunctions.Score;
         }
 
         // MARK: Methods
@@ -66,22 +58,52 @@ namespace MartonioJunior.EdKit
         <param name="evaluations">The functions used to score each pose event, in reverse order.</param>
         <returns>The gesture created from the sequence of scoring functions.</returns>
         */
-        public static Gesture FromSequence(string name, params Func<Event<IPose, Placement>,float>[] evaluations)
+        public static Gesture FromSequence(string name, params Func<PoseEvent, float>[] evaluations)
         {
-            return new Gesture(name, (events) => {
-                int numberOfChecks = evaluations.Length;
-                float score = 0;
+            return new(name, evaluations.Score);
+        }
 
-                if (numberOfChecks == 0) return 0;
-
-                for (int i = 0; i < numberOfChecks; i++) {
-                    score += evaluations[^i](events[^i]);
-                }
-
-                return score / numberOfChecks;
+        public static Gesture FromPoses(string name, params IPose[] poses)
+        {
+            var poseFunctions = poses.Reduce(new List<Func<PoseEvent, float>>(), (list,element) => {
+                list.Add(element.ScoringByObjectName);
+                return list;
             });
+
+            return new Gesture(name, poseFunctions);
         }
     }
+
+    #region Formula
+    public static partial class IListExtensions
+    {
+        public static float Score(this IList<Func<PoseEvent, float>> evaluations, IList<PoseEvent> events)
+        {
+            int numberOfChecks = evaluations.Count;
+            float score = 0;
+
+            if (numberOfChecks == 0) return 0;
+
+            for (int i = 1; i <= numberOfChecks; i++) {
+                if (i >= events.Count) break;
+
+                score += evaluations[^i](events[^i]);
+            }
+
+            return score / numberOfChecks;
+        }
+    }
+    #endregion
+
+    #region ToString
+    public partial struct Gesture
+    {
+        public override string ToString()
+        {
+            return "Gesture: " + name;
+        }
+    }
+    #endregion
 
     #region IGesture Implementation
     public partial struct Gesture: IGesture
@@ -91,9 +113,9 @@ namespace MartonioJunior.EdKit
         */
         public string Name => name;
         /**
-        <inheritdoc cref="IGesture.Evaluate(IList{Event{IPose, Placement}})"/>
+        <inheritdoc cref="IGesture.Evaluate(IList{PoseEvent})"/>
         */
-        public float Evaluate(IList<Event<IPose, Placement>> events)
+        public float Evaluate(IList<PoseEvent> events)
         {
             return scoreFunction(events);
         }

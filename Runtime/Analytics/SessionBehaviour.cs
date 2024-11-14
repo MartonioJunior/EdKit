@@ -112,4 +112,23 @@ namespace MartonioJunior.EdKit
         public void Register(Entity entity) => session?.Register(entity);
     }
     #endregion
+
+    #region UnityEvent Bindings
+    public partial class SessionBehaviour
+    {
+        public void RegisterGesture(Event<IGesture, List<Event<IPose, Placement>>> gestureEvent)
+        {
+            if (session is null) return;
+
+            gestureEvent.RegisterTo(this);
+        }
+
+        public void RegisterPose(Event<IPose, Placement> poseEvent)
+        {
+            if (session is null) return;
+
+            poseEvent.RegisterTo(this);
+        }
+    }
+    #endregion
 }

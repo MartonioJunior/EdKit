@@ -187,4 +187,23 @@ namespace MartonioJunior.EdKit
         }
     }
     #endregion
+
+    #region UnityEditor Support
+    #if UNITY_EDITOR
+    public partial class RecognizerBehaviour
+    {
+        public void FeedPoseEvent(PoseEvent poseEvent)
+        {
+            buffer.Add(poseEvent);
+            onPoseRecognized.Invoke(poseEvent);
+        }
+
+        public void FeedGestureEvent(GestureEvent gestureEvent)
+        {
+            onGestureRecognized.Invoke(gestureEvent);
+            buffer.Clear();
+        }
+    }
+    #endif
+    #endregion
 }

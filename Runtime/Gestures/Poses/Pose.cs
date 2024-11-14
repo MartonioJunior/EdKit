@@ -70,7 +70,7 @@ namespace MartonioJunior.EdKit
     }
     #endregion
 
-    #region IEnumerable Extensions
+    #region IEnumerable<IPose>
     public static partial class IEnumerableExtensions
     {
         /**

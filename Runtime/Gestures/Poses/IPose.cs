@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 namespace MartonioJunior.EdKit
 {
+    #region Aliases
+    using PoseEvent = Event<IPose, Placement>;
+    #endregion
     /**
     <summary>Interface used to describe a pose in EdKit.</summary>
     */
@@ -20,6 +24,21 @@ namespace MartonioJunior.EdKit
         */
         float Evaluate(Placement placement);
     }
+
+    #region Default Implementation
+    public static partial class IPoseExtensions
+    {
+        public static bool CompareByName(this IPose self, IPose other)
+        {
+            return self.Name == other.Name;
+        }
+
+        public static float ScoringByObjectName(this IPose self, PoseEvent poseEvent)
+        {
+            return poseEvent.ScoreByObjectName(self);
+        }
+    }
+    #endregion
 
     #region IEventObject Implementation
     public partial interface IPose: IEventObject<Placement>
@@ -41,6 +60,16 @@ namespace MartonioJunior.EdKit
         float IEventObject<Placement>.Score(Placement data)
         {
             return Evaluate(data);
+        }
+    }
+    #endregion
+
+    #region Event Extensions
+    public static partial class EventExtensions
+    {
+        public static float ScoreByObjectName(this PoseEvent self, IPose other)
+        {
+            return self.Object.CompareByName(other) ? self.Score : 0;
         }
     }
     #endregion

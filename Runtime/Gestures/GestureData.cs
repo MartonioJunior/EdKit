@@ -7,6 +7,7 @@ namespace MartonioJunior.EdKit
     <summary>Gesture that is defined by an ordered sequence of poses.</summary>
     <remarks>All poses contribute equally to the final score.</remarks>
     */
+    [System.Obsolete("GestureData is currently deprecated. Please use Gesture or a type inheriting from IGesture instead.")]
     public partial class GestureData
     {
         // MARK: Variables
@@ -23,7 +24,7 @@ namespace MartonioJunior.EdKit
     }
 
     #region ScriptableObject Implementation
-    [CreateAssetMenu(fileName = "GestureData", menuName = "EdKit/Gesture", order = 0)]
+    // [CreateAssetMenu(fileName = "GestureData", menuName = "EdKit/Gesture", order = 0)]
     public partial class GestureData: ScriptableObject {}
     #endregion
 
@@ -41,18 +42,22 @@ namespace MartonioJunior.EdKit
         */
         public float Evaluate(IList<Event<IPose, Placement>> events)
         {
+            if (poses == null) return 0;
+
             float numberOfPoses = poses.Length + 1;
             var poseScore = 0f;
             var poseIndex = 1;
 
             for (int i = 1; i < numberOfPoses; i++) {
-                if (events[^i].Object.Equals(poses[^poseIndex])) continue;
+                if (events.Count <= i) return 0;
 
-                poseScore += events[^i].Score;
+                if (!events[^i].Object.Equals(poses[^poseIndex])) continue;
+
+                poseScore = Mathf.Min(poseScore, events[^i].Score);
                 poseIndex++;
             }
 
-            return poseScore / numberOfPoses;
+            return poseScore;
         }
     }
     #endregion
