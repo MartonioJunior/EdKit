@@ -1,10 +1,8 @@
 # EdKit
 
-## About
+EdKit is a custom Unity package that aids in the development of VR games for People with Visual Impairments (PVI) that work with Left-Right discrimination concepts, an useful spatial orientation concept that allows further development of their cognitive and motor skills.
 
-![How EdKit fits in your project](Documentation~/Media/edkit-architecture.png)
-
-EdKit is a special Unity package in developing VR games for People with Visual Impairments (PVI) that work with Left-Right discrimination concepts, an useful spatial orientation concept that allows further development of their cognitive and motor skills.
+![](Documentation~/Media/edkit-architecture.png)
 
 ## How to Install
 
