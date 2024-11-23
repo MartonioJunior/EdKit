@@ -12,7 +12,7 @@ namespace MartonioJunior.EdKit
         /**
         <summary>Textual description when an affordance is executed.</summary>
         */
-        [SerializeField] string description;
+        [SerializeField, TextArea] string description;
         /**
         <summary>Audio clip to be played when an affordance is executed.</summary>
         */
