@@ -25,7 +25,7 @@ namespace MartonioJunior.EdKit
 
         // MARK: Initializers
         /**
-        <summary>Initializes the <c>Axis</c> using the specified emumerators</summary>
+        <summary>Initializes the <c>Axis</c> using the specified enumerators</summary>
         */
         public Axis(X x, Y y, Z z)
         {
@@ -239,6 +239,33 @@ namespace MartonioJunior.EdKit
                 Axis.Z.Front => multiplier,
                 _ => float.NaN,
             };
+        }
+    }
+    #endregion
+
+    #region Validate
+    public static partial class AxisExtensions
+    {
+        public static bool Validate(this Axis.X self, Axis.X mask) => (self & mask) == self;
+        public static bool Validate(this Axis.Y self, Axis.Y mask) => (self & mask) == self;
+        public static bool Validate(this Axis.Z self, Axis.Z mask) => (self & mask) == self;
+        public static bool Validate(this Axis self, Axis mask)
+        {
+            return self.x.Validate(mask.x) && self.y.Validate(mask.y) && self.z.Validate(mask.z);
+        }
+    }
+    #endregion
+
+    #region Other Utilities
+    public partial struct Axis
+    {
+        public Vector3 SignVector(Vector3 multiplier)
+        {
+            return new(
+                x.Sign(multiplier.x),
+                y.Sign(multiplier.y),
+                z.Sign(multiplier.z)
+            );
         }
     }
     #endregion
