@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MartonioJunior.EdKit
@@ -62,6 +64,20 @@ namespace MartonioJunior.EdKit
         {
             return $"| Left Hand: {leftHand}\n| Right Hand: {rightHand}\n| Head: {head}";
         }
+    }
+    #endregion
+
+    #region IEnumerable<Orientation> Implementation
+    public partial struct Placement: IEnumerable<Orientation>
+    {
+        public IEnumerator<Orientation> GetEnumerator()
+        {
+            yield return leftHand;
+            yield return rightHand;
+            yield return head;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
     #endregion
 

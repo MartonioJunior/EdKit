@@ -10,15 +10,26 @@ namespace MartonioJunior.EdKit
         [SerializeField] AffordanceEffect defaultEffect;
         Dictionary<AffordanceData, AffordanceEffect> runningAffordances = new();
 
+        // MARK: Properties
+        public AffordanceEffect DefaultEffect
+        {
+            get => defaultEffect;
+            set => defaultEffect = value;
+        }
+
         // MARK: Events
         [SerializeField] Event<AudioClip> audioEvent = new();
         [SerializeField] Event<string> textEvent = new();
         [SerializeField] Event<Material> visualEvent = new();
+        [SerializeField] Event<float> alignmentEvent = new();
+        [SerializeField] Event<float> scaleEvent = new();
 
         // MARK: Methods
         private void PlayAffordance(AffordanceData affordance, AffordanceEffect effect)
         {
             affordance.UpdateAffordance(effect);
+            alignmentEvent.OnUpdate(effect.Alignment);
+            scaleEvent.OnUpdate(effect.Scale);
             audioEvent.OnUpdate(affordance.AudioFeedback);
             textEvent.OnUpdate(affordance.TextFeedback);
             visualEvent.OnUpdate(affordance.VisualFeedback);
@@ -26,9 +37,11 @@ namespace MartonioJunior.EdKit
 
         public void Receive(AffordanceData affordance, AffordanceEffect effect)
         {
-            if (runningAffordances.ContainsKey(affordance)) return;
+            if (affordance == null || runningAffordances.ContainsKey(affordance)) return;
 
             runningAffordances.Add(affordance, effect);
+            alignmentEvent.OnTrigger(effect.Alignment);
+            scaleEvent.OnTrigger(effect.Scale);
             audioEvent.OnTrigger(affordance.AudioFeedback);
             textEvent.OnTrigger(affordance.TextFeedback);
             visualEvent.OnTrigger(affordance.VisualFeedback);
@@ -36,9 +49,11 @@ namespace MartonioJunior.EdKit
 
         public void Remove(AffordanceData affordance)
         {
-            if (!runningAffordances.ContainsKey(affordance)) return;
+            if (affordance == null || !runningAffordances.ContainsKey(affordance)) return;
 
             runningAffordances.Remove(affordance);
+            alignmentEvent.OnStop(defaultEffect.Alignment);
+            scaleEvent.OnStop(defaultEffect.Scale);
             audioEvent.OnStop(affordance.AudioFeedback);
             visualEvent.OnStop(affordance.VisualFeedback);
             textEvent.OnStop(affordance.TextFeedback);
@@ -53,15 +68,12 @@ namespace MartonioJunior.EdKit
             foreach (var affordance in keysToAnalyze) {
                 var effect = runningAffordances[affordance];
 
-                debug += $"{gameObject.name} | {affordance.name} - {effect.Duration}\n";
+                // debug += $"{gameObject.name} | {affordance.name} - {effect.Duration}\n";
                 
                 PlayAffordance(affordance, effect.WithDuration(deltaTime));
 
                 if (effect.Duration < deltaTime) {
                     keysToRemove.Add(affordance);
-                    audioEvent.OnStop(affordance.AudioFeedback);
-                    visualEvent.OnStop(affordance.VisualFeedback);
-                    textEvent.OnStop(affordance.TextFeedback);
                     continue;
                 }
 
@@ -72,7 +84,7 @@ namespace MartonioJunior.EdKit
                 runningAffordances.Remove(affordance);
             }
 
-            if (debug != "") Debug.Log(debug);
+            // if (debug != "") Debug.Log(debug);
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MartonioJunior.EdKit
 {
@@ -46,18 +47,18 @@ namespace MartonioJunior.EdKit
         <summary>Associates an agent with this activity.</summary>
         <returns>The activity itself.</returns>
         */
-        public Activity AssociatedWith(Agent agent)
+        public Activity AssociatedWith(params Agent[] agent)
         {
-            wasAssociatedWith = agent.agentID;
+            wasAssociatedWith = string.Join(",", agent.Select(a => a.agentID));
             return this;
         }
         /**
         <summary>Associates an entity with this activity.</summary>
         <returns>The activity itself.</returns>
         */
-        public Activity UsedBy(Entity entity)
+        public Activity UsedBy(params Entity[] entity)
         {
-            used = entity.entityID;
+            used = string.Join(",", entity.Select(e => e.entityID));
             return this;
         }
     }
